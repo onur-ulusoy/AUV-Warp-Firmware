@@ -22,7 +22,7 @@
 #include "crc.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_otg.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -92,11 +92,11 @@ int main(void)
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   MX_CRC_Init();
-  MX_USB_OTG_FS_PCD_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -156,7 +156,9 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void CDC_FS_Receive_CpltCallback(uint8_t *Buf, uint32_t *Len) {
+  // Receive Code Here.
+}
 /* USER CODE END 4 */
 
 /**
