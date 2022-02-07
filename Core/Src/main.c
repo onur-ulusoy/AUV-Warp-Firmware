@@ -20,6 +20,7 @@
 #include "main.h"
 #include "adc.h"
 #include "crc.h"
+#include "dma.h"
 #include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
@@ -27,6 +28,33 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+uint32_t adcbuffer[10];
+char adcDataToSent[56];
+/*uint32_t adc0;
+uint32_t adc1;
+uint32_t adc2;
+uint32_t adc3;
+uint32_t adc4;
+uint32_t adc5;
+uint32_t adc6;
+uint32_t adc7;
+uint32_t adc8;
+uint32_t adc9;*/
+
+struct ChannelData {
+  uint16_t ch0; /// us pulse (t_on time, t_off time -> dynamic) f_hz = 50, t_off = 20000 - t_on # ARR -> 20000,
+  uint16_t ch1;
+  uint16_t ch2;
+  uint16_t ch3;
+  uint16_t ch4;
+  uint16_t ch5;
+  uint16_t ch6;
+  uint16_t ch7;
+};
 
 /* USER CODE END Includes */
 
@@ -53,6 +81,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+void DriveMotors(const struct ChannelData command);
 
 /* USER CODE END PFP */
 
@@ -68,6 +97,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
 
   /* USER CODE END 1 */
 
@@ -89,6 +119,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+	MX_DMA_Init();
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   MX_CRC_Init();
@@ -96,15 +127,47 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
+  
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
+
+  HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
+
+  HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
+
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  const struct ChannelData sample_command = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
+
+  DriveMotors(sample_command);
+		
   while (1)
   {
+	  HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
+		
+
+	  HAL_UART_Transmit(&huart1, (uint8_t*) adcDataToSent, 10, 1000);
+		
+	  /*adc0 = adcbuffer[0];
+	  adc1 = adcbuffer[1];
+	  adc2 = adcbuffer[2];
+	  adc3 = adcbuffer[3];
+	  adc4 = adcbuffer[4];
+	  adc5 = adcbuffer[5];
+	  adc6 = adcbuffer[6];
+	  adc7 = adcbuffer[7];
+	  adc8 = adcbuffer[8];
+	  adc9 = adcbuffer[9];*/
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -156,6 +219,53 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void DriveMotors(const struct ChannelData command) {
+
+  uint16_t pulse;
+
+  uint16_t ch0_command = command.ch0;
+  pulse = (int) round(1.68 * ch0_command);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pulse);
+
+  uint16_t ch1_command = command.ch1;
+  pulse = (int) round(1.68 * ch1_command);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulse);
+
+  uint16_t ch2_command = command.ch2;
+  pulse = (int) round(1.68 * ch2_command);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, pulse);
+
+  uint16_t ch3_command = command.ch3;
+  pulse = (int) round(1.68 * ch3_command);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pulse);
+
+  uint16_t ch4_command = command.ch4;
+  pulse = (int) round(1.68 * ch4_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, pulse);
+
+  uint16_t ch5_command = command.ch5;
+  pulse = (int) round(1.68 * ch5_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, pulse);
+
+  uint16_t ch6_command = command.ch6;
+  pulse = (int) round(1.68 * ch6_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pulse);
+
+  uint16_t ch7_command = command.ch7;
+  pulse = (int) round(1.68 * ch7_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, pulse);
+
+
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+	if (hadc->Instance == ADC1){
+		sprintf(adcDataToSent, "%d %d %d %d %d %d %d %d %d %d\r\n", adcbuffer[0], adcbuffer[1], adcbuffer[2], adcbuffer[3], adcbuffer[4], adcbuffer[5], adcbuffer[6], adcbuffer[7], adcbuffer[8], adcbuffer[9]);
+	}
+}
+
 void CDC_FS_Receive_CpltCallback(uint8_t *Buf, uint32_t *Len) {
   // Receive Code Here.
 }
