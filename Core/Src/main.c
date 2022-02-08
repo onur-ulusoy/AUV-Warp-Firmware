@@ -33,7 +33,8 @@
 #include <string.h>
 
 uint32_t adcbuffer[10];
-char adcDataToSent[56];
+float currentbuffer[8];
+char currentDataToSend[70]; // in Amperes
 /*uint32_t adc0;
 uint32_t adc1;
 uint32_t adc2;
@@ -156,7 +157,10 @@ int main(void)
 	  HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
 		
 
-	  HAL_UART_Transmit(&huart1, (uint8_t*) adcDataToSent, 10, 1000);
+	  if (HAL_UART_Transmit(&huart1, (uint8_t*) currentDataToSend, sizeof(currentDataToSend), 1000)!= HAL_OK)
+			Error_Handler();
+		
+		HAL_Delay(500);
 		
 	  /*adc0 = adcbuffer[0];
 	  adc1 = adcbuffer[1];
@@ -262,7 +266,13 @@ void DriveMotors(const struct ChannelData command) {
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 	if (hadc->Instance == ADC1){
-		sprintf(adcDataToSent, "%d %d %d %d %d %d %d %d %d %d\r\n", adcbuffer[0], adcbuffer[1], adcbuffer[2], adcbuffer[3], adcbuffer[4], adcbuffer[5], adcbuffer[6], adcbuffer[7], adcbuffer[8], adcbuffer[9]);
+		
+		for (uint8_t i=0; i<8; i++)
+		{
+			currentbuffer[i] = ((adcbuffer[i] * 3.3 / 4096.0 / 100) * 1000) / 100; // mV/mOhm = Amperes
+		}
+		
+		sprintf(currentDataToSend, "%2.4f %2.4f %2.4f %2.4f %2.4f %2.4f %2.4f %2.4f\r\n", currentbuffer[0], currentbuffer[1], currentbuffer[2], currentbuffer[3], currentbuffer[4], currentbuffer[5], currentbuffer[6], currentbuffer[7]);
 	}
 }
 
