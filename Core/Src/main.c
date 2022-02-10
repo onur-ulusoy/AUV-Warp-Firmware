@@ -123,6 +123,7 @@ int main(void)
   MX_GPIO_Init();
 	
 	MX_DMA_Init();
+
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   MX_CRC_Init();
@@ -130,7 +131,6 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
-  
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 	
@@ -252,9 +252,29 @@ void DriveMotors(const struct ChannelData command) {
 
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	if (hadc->Instance == ADC1){
+//void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+//{
+//	if (hadc->Instance == ADC1){
+//		
+//		for (uint8_t i=0; i<8; i++)
+//		{
+//			currentbuffer[i] = ((adcbuffer[i] * 3.3 / 4096.0 / 100) * 1000) / 100; // mV/mOhm = Amperes
+//		}
+//		
+//		//6 digits
+//		sprintf(currentDataToSend, "%2.6f %2.6f %2.6f %2.6f %2.6f %2.6f %2.6f %2.6f\r\n", currentbuffer[0], currentbuffer[1], currentbuffer[2], currentbuffer[3], currentbuffer[4], currentbuffer[5], currentbuffer[6], currentbuffer[7]);
+//		
+////		struct Power battery;
+////		battery.current = adcbuffer[8];//?? neye göre hesaplaniyor
+////		battery.voltage = adcbuffer[9];//??
+
+//	}
+//}
+
+void ESCCurrent_Request(enum ESCCurrentADCCommand command) {
+  if (command == START_ONETIME) {
+		
+    HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
 		
 		for (uint8_t i=0; i<8; i++)
 		{
@@ -267,14 +287,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 //		struct Power battery;
 //		battery.current = adcbuffer[8];//?? neye göre hesaplaniyor
 //		battery.voltage = adcbuffer[9];//??
-
-	}
-}
-
-void ESCCurrent_Request(enum ESCCurrentADCCommand command) {
-  if (command == START_ONETIME) {
-		
-    HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
 		
 
 	  if (HAL_UART_Transmit(&huart1, (uint8_t*) currentDataToSend, sizeof(currentDataToSend), 1000)!= HAL_OK)
