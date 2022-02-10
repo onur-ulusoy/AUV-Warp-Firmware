@@ -32,19 +32,15 @@
 #include <stdio.h>
 #include <string.h>
 
+enum ESCCurrentADCCommand{
+  STOP = 0, // stop sending esc current data
+  START_CONTINIOUS = 1, // start sending esc current data
+  START_ONETIME = 2 // send esc current data
+};
+
 uint32_t adcbuffer[10];
 float currentbuffer[8];
-char currentDataToSend[70]; // in Amperes
-/*uint32_t adc0;
-uint32_t adc1;
-uint32_t adc2;
-uint32_t adc3;
-uint32_t adc4;
-uint32_t adc5;
-uint32_t adc6;
-uint32_t adc7;
-uint32_t adc8;
-uint32_t adc9;*/
+char currentDataToSend[75]; // in Amperes, will be parsed with ' ' 
 
 struct ChannelData {
   uint16_t ch0; /// us pulse (t_on time, t_off time -> dynamic) f_hz = 50, t_off = 20000 - t_on # ARR -> 20000,
@@ -55,6 +51,11 @@ struct ChannelData {
   uint16_t ch5;
   uint16_t ch6;
   uint16_t ch7;
+};
+
+struct Power {
+  float voltage;
+  float current;
 };
 
 /* USER CODE END Includes */
@@ -83,6 +84,7 @@ struct ChannelData {
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void DriveMotors(const struct ChannelData command);
+void ESCCurrent_Request(enum ESCCurrentADCCommand command);
 
 /* USER CODE END PFP */
 
@@ -98,7 +100,6 @@ void DriveMotors(const struct ChannelData command);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
 
   /* USER CODE END 1 */
 
@@ -120,6 +121,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+	
 	MX_DMA_Init();
   MX_ADC1_Init();
   MX_USART1_UART_Init();
@@ -131,8 +133,8 @@ int main(void)
   
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
-  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
+	
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
 
   HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
@@ -142,36 +144,23 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
-
 	
+	const struct ChannelData sample_command = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
+	
+  DriveMotors(sample_command);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  const struct ChannelData sample_command = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
-
-  DriveMotors(sample_command);
-		
   while (1)
   {
-	  HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
 		
-
-	  if (HAL_UART_Transmit(&huart1, (uint8_t*) currentDataToSend, sizeof(currentDataToSend), 1000)!= HAL_OK)
-			Error_Handler();
+		ESCCurrent_Request(START_ONETIME);
 		
 		HAL_Delay(500);
 		
-	  /*adc0 = adcbuffer[0];
-	  adc1 = adcbuffer[1];
-	  adc2 = adcbuffer[2];
-	  adc3 = adcbuffer[3];
-	  adc4 = adcbuffer[4];
-	  adc5 = adcbuffer[5];
-	  adc6 = adcbuffer[6];
-	  adc7 = adcbuffer[7];
-	  adc8 = adcbuffer[8];
-	  adc9 = adcbuffer[9];*/
+
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -272,8 +261,27 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 			currentbuffer[i] = ((adcbuffer[i] * 3.3 / 4096.0 / 100) * 1000) / 100; // mV/mOhm = Amperes
 		}
 		
-		sprintf(currentDataToSend, "%2.4f %2.4f %2.4f %2.4f %2.4f %2.4f %2.4f %2.4f\r\n", currentbuffer[0], currentbuffer[1], currentbuffer[2], currentbuffer[3], currentbuffer[4], currentbuffer[5], currentbuffer[6], currentbuffer[7]);
+		//6 digits
+		sprintf(currentDataToSend, "%2.6f %2.6f %2.6f %2.6f %2.6f %2.6f %2.6f %2.6f\r\n", currentbuffer[0], currentbuffer[1], currentbuffer[2], currentbuffer[3], currentbuffer[4], currentbuffer[5], currentbuffer[6], currentbuffer[7]);
+		
+//		struct Power battery;
+//		battery.current = adcbuffer[8];//?? neye göre hesaplaniyor
+//		battery.voltage = adcbuffer[9];//??
+
 	}
+}
+
+void ESCCurrent_Request(enum ESCCurrentADCCommand command) {
+  if (command == START_ONETIME) {
+		
+    HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
+		
+
+	  if (HAL_UART_Transmit(&huart1, (uint8_t*) currentDataToSend, sizeof(currentDataToSend), 1000)!= HAL_OK)
+			Error_Handler();
+
+		
+  }
 }
 
 void CDC_FS_Receive_CpltCallback(uint8_t *Buf, uint32_t *Len) {
