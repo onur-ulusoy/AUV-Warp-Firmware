@@ -22,6 +22,14 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#include "warp_protocol.h" //generated using warp_protocol.proto in warp-firmware\proto repo // ??
+uint16_t status;
+char encodedCommand[20];// ??
+char ReceivedData[80]; // ??
+char encodedPWM_ChannelData[60]; // ??
+extern struct PWM_ChannelData;
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -203,14 +211,23 @@ void SysTick_Handler(void)
 /**
   * @brief This function handles USART1 global interrupt.
   */
+
+
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
 
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
+	
   /* USER CODE BEGIN USART1_IRQn 1 */
-
+	HAL_UART_Receive(&huart1, (uint8_t*) ReceivedData, sizeof(ReceivedData), 1000); //??
+	encodedCommand = ReceivedData.Command;
+	encodedPWM_ChannelData = ReceivedData.PWM_ChannelData;
+	
+	status = warp_protocol.Command.decode(encodedCommand).status; //??
+	PWM_ChannelData = warp_protocol.Command.decode(encodedPWM_ChannelData); //??
+	
   /* USER CODE END USART1_IRQn 1 */
 }
 
