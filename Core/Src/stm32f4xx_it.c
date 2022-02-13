@@ -26,7 +26,7 @@
 #include "warp_protocol.h" //generated using warp_protocol.proto in warp-firmware\proto repo // ??
 uint16_t status;
 char encodedCommand[20];// ??
-char ReceivedData[80]; // ??
+char ReceivedData[80]; // ?? //encoded_Command_and_PWM
 char encodedPWM_ChannelData[60]; // ??
 extern struct PWM_ChannelData;
 
@@ -222,11 +222,11 @@ void USART1_IRQHandler(void)
 	
   /* USER CODE BEGIN USART1_IRQn 1 */
 	HAL_UART_Receive(&huart1, (uint8_t*) ReceivedData, sizeof(ReceivedData), 1000); //??
-	encodedCommand = ReceivedData.Command;
-	encodedPWM_ChannelData = ReceivedData.PWM_ChannelData;
+	encodedCommand = ReceivedData.Command; //??
+	encodedPWM_ChannelData = ReceivedData.PWM_ChannelData; //??
 	
-	status = warp_protocol.Command.decode(encodedCommand).status; //??
-	PWM_ChannelData = warp_protocol.Command.decode(encodedPWM_ChannelData); //??
+	status = warp_protocol.Command_and_PWM.decode(encodedCommand).status; //??
+	PWM_ChannelData = warp_protocol.Command_and_PWM.decode(encodedPWM_ChannelData); //??
 	
   /* USER CODE END USART1_IRQn 1 */
 }

@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-message Command { //command that controls the status of esc current data transmittion to the main board will be received from the main board
+message Command_and_PWM { 
 
+    //command that controls the status of esc current data transmittion to the main board will be received from the main board
     uint32 status = 1;
     
     enum ESCCurrentADCCommand{
@@ -9,6 +10,18 @@ message Command { //command that controls the status of esc current data transmi
         START_CONTINIOUS = 1;
         START_ONETIME = 2;
       };
+
+
+
+    //PWM periods need to drive escs will be received from the main board
+    uint32 ch0 = 3; 
+    uint32 ch1 = 4;
+    uint32 ch2 = 5;
+    uint32 ch3 = 6;
+    uint32 ch4 = 7;
+    uint32 ch5 = 8;
+    uint32 ch6 = 9;
+    uint32 ch7 = 10;
 
 }
 
@@ -25,16 +38,4 @@ message ADC_data { //esc currents and batt voltage/current info will be transmit
 
     float batt_voltage = 9;
     float batt_current = 10;
-}
-
-message PWM_ChannelData { //PWM periods need to drive escs will be received from the main board
-
-    uint32 ch0 = 1;
-    uint32 ch1 = 2;
-    uint32 ch2 = 3;
-    uint32 ch3 = 4;
-    uint32 ch4 = 5;
-    uint32 ch5 = 6;
-    uint32 ch6 = 7;
-    uint32 ch7 = 8;
 }
