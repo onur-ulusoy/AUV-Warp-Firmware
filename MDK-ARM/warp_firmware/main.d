@@ -51,3 +51,9 @@ warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
 warp_firmware\main.o: ../Core/Inc/gpio.h
 warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\math.h
+warp_firmware\main.o: ../Core/Inc/proto/warp_protocol.pb.h
+warp_firmware\main.o: ../Core/Inc/pb.h
+warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\limits.h
+warp_firmware\main.o: ../Core/Inc/pb_decode.h
+warp_firmware\main.o: ../Core/Inc/pb_encode.h

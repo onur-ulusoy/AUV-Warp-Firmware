@@ -438,6 +438,26 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>pb_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\pb_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>pb_decode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\pb_decode.c</FilePath>
+            </File>
+            <File>
+              <FileName>pb_encode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\pb_encode.c</FilePath>
+            </File>
+            <File>
+              <FileName>warp_protocol.pb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\warp_protocol.pb.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

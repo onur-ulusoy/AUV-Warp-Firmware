@@ -23,12 +23,17 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "warp_protocol.h" //generated using warp_protocol.proto in warp-firmware\proto repo // ??
+#include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
+#include "pb_decode.h"
+#include "pb_encode.h"
+
 uint16_t status;
-char encodedCommand[20];// ??
-char ReceivedData[80]; // ?? //encoded_Command_and_PWM
-char encodedPWM_ChannelData[60]; // ??
-extern struct PWM_ChannelData;
+//char encodedCommand[20];// ??
+//char encodedPWM_ChannelData[60]; // ??
+
+pb_byte_t ReceivedData[80]; // ?? //encoded Warp Command received from the main board
+
+extern struct _WarpCommand PWM_ChannelData;
 
 /* USER CODE END Includes */
 
@@ -221,12 +226,11 @@ void USART1_IRQHandler(void)
   HAL_UART_IRQHandler(&huart1);
 	
   /* USER CODE BEGIN USART1_IRQn 1 */
-	HAL_UART_Receive(&huart1, (uint8_t*) ReceivedData, sizeof(ReceivedData), 1000); //??
-	encodedCommand = ReceivedData.Command; //??
-	encodedPWM_ChannelData = ReceivedData.PWM_ChannelData; //??
+	HAL_UART_Receive(&huart1, (uint8_t*) ReceivedData, sizeof(ReceivedData), 1000);
 	
-	status = warp_protocol.Command_and_PWM.decode(encodedCommand).status; //??
-	PWM_ChannelData = warp_protocol.Command_and_PWM.decode(encodedPWM_ChannelData); //??
+	pb_istream_t pb_instream =  pb_istream_from_buffer(ReceivedData, sizeof(ReceivedData));
+	const pb_msgdesc_t* fields;
+	pb_decode(&pb_instream, fields, &PWM_ChannelData);
 	
   /* USER CODE END USART1_IRQn 1 */
 }

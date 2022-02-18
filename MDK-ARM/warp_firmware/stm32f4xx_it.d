@@ -39,3 +39,10 @@ warp_firmware\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_
 warp_firmware\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 warp_firmware\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
 warp_firmware\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/proto/warp_protocol.pb.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/pb.h
+warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\limits.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/pb_decode.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/pb_encode.h

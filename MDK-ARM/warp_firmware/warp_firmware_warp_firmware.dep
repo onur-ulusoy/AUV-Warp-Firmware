@@ -1,7 +1,7 @@
 Dependencies for Project 'warp_firmware', Target 'warp_firmware': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f401xc.s)(0x62057F03)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 536" --pd "_RTE_ SETA 1" --pd "STM32F401xC SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f401xc.lst --xref -o warp_firmware\startup_stm32f401xc.o --depend warp_firmware\startup_stm32f401xc.d)
-F (../Core/Src/main.c)(0x62058836)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\main.o --omf_browse warp_firmware\main.crf --depend warp_firmware\main.d)
+F (../Core/Src/main.c)(0x620FC8AA)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\main.o --omf_browse warp_firmware\main.crf --depend warp_firmware\main.d)
 I (../Core/Inc/main.h)(0x62057F00)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x61BE50C6)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x62057F00)
@@ -53,6 +53,12 @@ I (D:\Keil\ARM\ARMCC\include\stdlib.h)(0x602569C4)
 I (D:\Keil\ARM\ARMCC\include\string.h)(0x602569CE)
 I (../Core/Inc/gpio.h)(0x62057EFE)
 I (D:\Keil\ARM\ARMCC\include\math.h)(0x602569C8)
+I (../Core/Inc/proto/warp_protocol.pb.h)(0x620EAEEB)
+I (../Core/Inc/pb.h)(0x620EAEEB)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x602569CC)
+I (D:\Keil\ARM\ARMCC\include\limits.h)(0x602569C6)
+I (../Core/Inc/pb_decode.h)(0x620EAEEB)
+I (../Core/Inc/pb_encode.h)(0x620EAEEB)
 F (../Core/Src/gpio.c)(0x62057EFE)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\gpio.o --omf_browse warp_firmware\gpio.crf --depend warp_firmware\gpio.d)
 I (../Core/Inc/gpio.h)(0x62057EFE)
 I (../Core/Inc/main.h)(0x62057F00)
@@ -293,7 +299,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x61BE50C6)
-F (../Core/Src/stm32f4xx_it.c)(0x62058836)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\stm32f4xx_it.o --omf_browse warp_firmware\stm32f4xx_it.crf --depend warp_firmware\stm32f4xx_it.d)
+F (../Core/Src/stm32f4xx_it.c)(0x620FC8AB)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\stm32f4xx_it.o --omf_browse warp_firmware\stm32f4xx_it.crf --depend warp_firmware\stm32f4xx_it.d)
 I (../Core/Inc/main.h)(0x62057F00)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x61BE50C6)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x62057F00)
@@ -333,6 +339,13 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x61BE50C6)
 I (../Core/Inc/stm32f4xx_it.h)(0x62057F00)
+I (../Core/Inc/proto/warp_protocol.pb.h)(0x620EAEEB)
+I (../Core/Inc/pb.h)(0x620EAEEB)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x602569CC)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\limits.h)(0x602569C6)
+I (../Core/Inc/pb_decode.h)(0x620EAEEB)
+I (../Core/Inc/pb_encode.h)(0x620EAEEB)
 F (../Core/Src/stm32f4xx_hal_msp.c)(0x62057F00)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\stm32f4xx_hal_msp.o --omf_browse warp_firmware\stm32f4xx_hal_msp.crf --depend warp_firmware\stm32f4xx_hal_msp.d)
 I (../Core/Inc/main.h)(0x62057F00)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x61BE50C6)
@@ -372,6 +385,40 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x61BE50C6)
+F (..\Core\Src\pb_common.c)(0x620EAEF3)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\pb_common.o --omf_browse warp_firmware\pb_common.crf --depend warp_firmware\pb_common.d)
+I (../Core/Inc/pb_common.h)(0x620EAEEB)
+I (../Core/Inc/pb.h)(0x620EAEEB)
+I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x602569CC)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\limits.h)(0x602569C6)
+F (..\Core\Src\pb_decode.c)(0x620EAEF3)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\pb_decode.o --omf_browse warp_firmware\pb_decode.crf --depend warp_firmware\pb_decode.d)
+I (../Core/Inc/pb.h)(0x620EAEEB)
+I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x602569CC)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\limits.h)(0x602569C6)
+I (../Core/Inc/pb_decode.h)(0x620EAEEB)
+I (../Core/Inc/pb_common.h)(0x620EAEEB)
+F (..\Core\Src\pb_encode.c)(0x620EAEF3)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\pb_encode.o --omf_browse warp_firmware\pb_encode.crf --depend warp_firmware\pb_encode.d)
+I (../Core/Inc/pb.h)(0x620EAEEB)
+I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x602569CC)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\limits.h)(0x602569C6)
+I (../Core/Inc/pb_encode.h)(0x620EAEEB)
+I (../Core/Inc/pb_common.h)(0x620EAEEB)
+F (..\Core\Src\warp_protocol.pb.c)(0x620EAEF3)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\warp_protocol.pb.o --omf_browse warp_firmware\warp_protocol.pb.crf --depend warp_firmware\warp_protocol.pb.d)
+I (../Core/Inc/proto/warp_protocol.pb.h)(0x620EAEEB)
+I (../Core/Inc/pb.h)(0x620EAEEB)
+I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x602569CC)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x602569CE)
+I (D:\Keil\ARM\ARMCC\include\limits.h)(0x602569C6)
 F (../USB_DEVICE/App/usb_device.c)(0x62057F00)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\usb_device.o --omf_browse warp_firmware\usb_device.crf --depend warp_firmware\usb_device.d)
 I (../USB_DEVICE/App/usb_device.h)(0x62057F00)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x61BE50C6)
@@ -1405,7 +1452,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x61BE50C6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x61BE50C6)
-F (../Core/Src/system_stm32f4xx.c)(0x61FFC7DF)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\system_stm32f4xx.o --omf_browse warp_firmware\system_stm32f4xx.crf --depend warp_firmware\system_stm32f4xx.d)
+F (../Core/Src/system_stm32f4xx.c)(0x61FFC7DF)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_warp_firmware-IC:\Users\onuru\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\onuru\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xC -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xC-o warp_firmware\system_stm32f4xx_1.o --omf_browse warp_firmware\system_stm32f4xx_1.crf --depend warp_firmware\system_stm32f4xx_1.d)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x61BE50C6)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f401xc.h)(0x61BE50C6)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x61BE508C)

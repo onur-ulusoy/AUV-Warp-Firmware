@@ -31,7 +31,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include "warp_protocol.h" //generated using warp_protocol.proto in warp-firmware\proto repo // ?? 
+#include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
+#include "pb_decode.h"
+#include "pb_encode.h"
 
 enum ESCCurrentADCCommand{
   STOP = 0, // stop sending esc current data
@@ -40,22 +42,14 @@ enum ESCCurrentADCCommand{
 };
 
 uint32_t adcbuffer[10];
-float currentbuffer[8];
+//float currentbuffer[10];
+struct _Sensors sensors;
 //char currentDataToSend[75]; // in Amperes, will be parsed with ' ' 
 extern uint16_t status;
 float constant1 = 3.3 / 4096.0 / 100 * 1000 / 100; // mV/mOhm = Amperes
-char encodedADCInfo[75]; //??
+float constant2 = 3.3 / 4096.0 / 100;
 
-struct ChannelData {
-  uint16_t ch0; /// us pulse (t_on time, t_off time -> dynamic) f_hz = 50, t_off = 20000 - t_on # ARR -> 20000,
-  uint16_t ch1;
-  uint16_t ch2;
-  uint16_t ch3;
-  uint16_t ch4;
-  uint16_t ch5;
-  uint16_t ch6;
-  uint16_t ch7;
-};
+pb_byte_t encodedADCInfo[75]; //??
 
 struct Power {
   float voltage;
@@ -87,7 +81,7 @@ struct Power {
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void DriveMotors(const struct ChannelData command);
+void DriveMotors(const struct _WarpCommand command);
 void ESCCurrent_Request(enum ESCCurrentADCCommand command);
 
 /* USER CODE END PFP */
@@ -149,13 +143,14 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
 	
-	const struct ChannelData PWM_ChannelData;// = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
+	struct _WarpCommand PWM_ChannelData;// = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
 	
   
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	status = START_ONETIME;
   while (1)
   {
 		
@@ -219,7 +214,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void DriveMotors(const struct ChannelData command) {
+void DriveMotors(const struct _WarpCommand command) {
 
   uint16_t pulse;
 
@@ -264,23 +259,28 @@ void ESCCurrent_Request(enum ESCCurrentADCCommand command) {
 		
     HAL_ADC_Start_DMA(&hadc1, adcbuffer, 10);
 		
-		for (uint8_t i=0; i<8; i++)
-		{
-			currentbuffer[i] = adcbuffer[i] * constant1; 
-		}
-		
-		//6 digits
-		//sprintf(currentDataToSend, "%2.6f %2.6f %2.6f %2.6f %2.6f %2.6f %2.6f %2.6f\r\n", currentbuffer[0], currentbuffer[1], currentbuffer[2], currentbuffer[3], currentbuffer[4], currentbuffer[5], currentbuffer[6], currentbuffer[7]);
-		
-		
+		sensors.ch0_current = adcbuffer[0] *constant1;
+		sensors.ch1_current = adcbuffer[1] *constant1;
+		sensors.ch2_current = adcbuffer[2] *constant1;
+		sensors.ch3_current = adcbuffer[3] *constant1;
+		sensors.ch4_current = adcbuffer[4] *constant1;
+		sensors.ch5_current = adcbuffer[5] *constant1;
+		sensors.ch6_current = adcbuffer[6] *constant1;
+		sensors.ch7_current = adcbuffer[7] *constant1;
 		
 		struct Power battery;
 		battery.current = adcbuffer[8] * constant1;
-		battery.voltage = adcbuffer[9]* constant1;
+		battery.voltage = adcbuffer[9]* constant2;
 		
-		encodedADCInfo = warp_protocol.ADC_data.encode(currentbuffer[0], currentbuffer[1], currentbuffer[2], currentbuffer[3], currentbuffer[4], currentbuffer[5], currentbuffer[6], currentbuffer[7], battery.current, battery.voltage); //??
+		sensors.batt_current = battery.current;
+		sensors.batt_voltage = battery.voltage;
+		
+		
+		pb_ostream_t pb_ostream =  pb_ostream_from_buffer(encodedADCInfo, sizeof(encodedADCInfo));
+		const pb_msgdesc_t* fields;
+		pb_encode(&pb_ostream, fields, &sensors);
 	  
-		if (HAL_UART_Transmit(&huart1, (uint8_t*) encodedADCInfo, sizeof(encodedADCInfo), 1000)!= HAL_OK) //??
+		if (HAL_UART_Transmit(&huart1, (uint8_t*) encodedADCInfo, sizeof(encodedADCInfo), 1000)!= HAL_OK) 
 			Error_Handler();
 
 		

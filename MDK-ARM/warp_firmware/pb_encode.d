@@ -1,0 +1,9 @@
+warp_firmware\pb_encode.o: ..\Core\Src\pb_encode.c
+warp_firmware\pb_encode.o: ../Core/Inc/pb.h
+warp_firmware\pb_encode.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+warp_firmware\pb_encode.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+warp_firmware\pb_encode.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+warp_firmware\pb_encode.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+warp_firmware\pb_encode.o: D:\Keil\ARM\ARMCC\Bin\..\include\limits.h
+warp_firmware\pb_encode.o: ../Core/Inc/pb_encode.h
+warp_firmware\pb_encode.o: ../Core/Inc/pb_common.h
