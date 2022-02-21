@@ -41,6 +41,21 @@ enum ESCCurrentADCCommand{
   START_ONETIME = 2 // send esc current data
 };
 
+WarpCommand esc_command;
+
+const WarpCommand default_esc_command = {
+	.ch0 = 1500,
+	.ch1 = 1500,
+	.ch2 = 1500,
+	.ch3 = 1500,
+	.ch4 = 1500,
+	.ch5 = 1500,
+	.ch6 = 1500,
+	.ch7 = 1500
+};
+
+volatile uint8_t cmd_ready_flag = 0;
+
 uint32_t adcbuffer[10];
 //float currentbuffer[10];
 struct _Sensors sensors;
@@ -88,6 +103,59 @@ void ESCCurrent_Request(enum ESCCurrentADCCommand command);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define UART_MAX_RX_SIZE 24
+uint8_t uart_rx_buffer[UART_MAX_RX_SIZE];
+
+void DriveMotors2(const WarpCommand command) {
+
+  uint16_t pulse;
+
+  uint16_t ch0_command = command.ch0;
+  pulse = (int) round(1.68 * ch0_command);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pulse);
+
+  uint16_t ch1_command = command.ch1;
+  pulse = (int) round(1.68 * ch1_command);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulse);
+
+  uint16_t ch2_command = command.ch2;
+  pulse = (int) round(1.68 * ch2_command);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, pulse);
+
+  uint16_t ch3_command = command.ch3;
+  pulse = (int) round(1.68 * ch3_command);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pulse);
+
+  uint16_t ch4_command = command.ch4;
+  pulse = (int) round(1.68 * ch4_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, pulse);
+
+  uint16_t ch5_command = command.ch5;
+  pulse = (int) round(1.68 * ch5_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, pulse);
+
+  uint16_t ch6_command = command.ch6;
+  pulse = (int) round(1.68 * ch6_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pulse);
+
+  uint16_t ch7_command = command.ch7;
+  pulse = (int) round(1.68 * ch7_command);
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, pulse);
+
+
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if (huart->Instance == huart1.Instance) {
+		uint32_t rx_count = huart->RxXferCount;
+		uint32_t rx_size = huart->RxXferSize;
+		
+		pb_istream_t pb_instream =  pb_istream_from_buffer(&uart_rx_buffer[0], rx_size);
+		pb_decode(&pb_instream, WarpCommand_fields, &esc_command);
+		cmd_ready_flag = 1;
+		HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[0], UART_MAX_RX_SIZE);
+	}
+}
 
 /* USER CODE END 0 */
 
@@ -143,6 +211,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
 	
+	
+	HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[0], UART_MAX_RX_SIZE);
 	//struct _WarpCommand PWM_ChannelData;// = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
 	
   /* USER CODE END 2 */
@@ -150,17 +220,29 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	//status = START_ONETIME;
+	DriveMotors2(default_esc_command);
   while (1)
   {
-		
-		ESCCurrent_Request(START_ONETIME);
-		
-		
-		
-		HAL_Delay(500);
-		
+		if ( cmd_ready_flag == 1){
+			cmd_ready_flag = 0;
 
+			// ESCCurrent_Request(START_ONETIME);
+			
+			WarpCommand cmd = {
+				.ch0 = 1800,
+				.ch1 = 1700,
+				.ch2 = 1600,
+				.ch3 = 1500,
+				.ch4 = 1400,
+				.ch5 = 1300,
+				.ch6 = 1200,
+				.ch7 = 1100
+			};
+			
+			DriveMotors2(esc_command);
+		}
 		
+		HAL_Delay(1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

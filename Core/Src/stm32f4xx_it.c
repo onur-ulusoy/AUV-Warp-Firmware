@@ -239,13 +239,6 @@ void USART1_IRQHandler(void)
   HAL_UART_IRQHandler(&huart1);
 	
   /* USER CODE BEGIN USART1_IRQn 1 */
-	HAL_UART_Receive(&huart1, (uint8_t*) ReceivedData, sizeof(ReceivedData), 1000);
-	
-	pb_istream_t pb_instream =  pb_istream_from_buffer(ReceivedData, sizeof(ReceivedData));
-	const pb_msgdesc_t* fields;
-	
-	pb_decode(&pb_instream, fields, &PWM_ChannelData);
-	
 	
   /* USER CODE END USART1_IRQn 1 */
 }
