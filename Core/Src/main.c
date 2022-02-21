@@ -81,7 +81,7 @@ struct Power {
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void DriveMotors(const struct _WarpCommand command);
+void DriveMotors(struct _WarpCommand command);
 void ESCCurrent_Request(enum ESCCurrentADCCommand command);
 
 /* USER CODE END PFP */
@@ -214,7 +214,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void DriveMotors(const struct _WarpCommand command) {
+void DriveMotors(struct _WarpCommand command) {
 
   uint16_t pulse;
 

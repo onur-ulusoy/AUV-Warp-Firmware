@@ -230,6 +230,7 @@ void USART1_IRQHandler(void)
 	
 	pb_istream_t pb_instream =  pb_istream_from_buffer(ReceivedData, sizeof(ReceivedData));
 	const pb_msgdesc_t* fields;
+	
 	pb_decode(&pb_instream, fields, &PWM_ChannelData);
 	
   /* USER CODE END USART1_IRQn 1 */
