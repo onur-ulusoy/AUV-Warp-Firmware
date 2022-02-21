@@ -23,30 +23,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
-#include "pb_decode.h"
-#include "pb_encode.h"
-
-#include "adc.h"
-#include "crc.h"
-#include "dma.h"
-#include "tim.h"
-#include "usart.h"
-#include "usb_device.h"
-#include "gpio.h"
-
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-
-uint16_t status;
-//char encodedCommand[20];// ??
-//char encodedPWM_ChannelData[60]; // ??
-
-pb_byte_t ReceivedData[80]; // ?? //encoded Warp Command received from the main board
-
-struct _WarpCommand PWM_ChannelData;
-void DriveMotors(struct _WarpCommand command);
+//#include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
+//#include "pb_decode.h"
+//#include "pb_encode.h"
 
 /* USER CODE END Includes */
 
@@ -273,43 +252,5 @@ void OTG_FS_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
-void DriveMotors(struct _WarpCommand command) {
-
-  uint16_t pulse;
-
-  uint16_t ch0_command = command.ch0;
-  pulse = (int) round(1.68 * ch0_command);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pulse);
-
-  uint16_t ch1_command = command.ch1;
-  pulse = (int) round(1.68 * ch1_command);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulse);
-
-  uint16_t ch2_command = command.ch2;
-  pulse = (int) round(1.68 * ch2_command);
-  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, pulse);
-
-  uint16_t ch3_command = command.ch3;
-  pulse = (int) round(1.68 * ch3_command);
-  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pulse);
-
-  uint16_t ch4_command = command.ch4;
-  pulse = (int) round(1.68 * ch4_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, pulse);
-
-  uint16_t ch5_command = command.ch5;
-  pulse = (int) round(1.68 * ch5_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, pulse);
-
-  uint16_t ch6_command = command.ch6;
-  pulse = (int) round(1.68 * ch6_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pulse);
-
-  uint16_t ch7_command = command.ch7;
-  pulse = (int) round(1.68 * ch7_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, pulse);
-
-
-}
 /* USER CODE END 1 */
 

@@ -57,14 +57,12 @@ const WarpCommand default_esc_command = {
 volatile uint8_t cmd_ready_flag = 0;
 
 uint32_t adcbuffer[10];
-//float currentbuffer[10];
-struct _Sensors sensors;
-//char currentDataToSend[75]; // in Amperes, will be parsed with ' ' 
-extern uint16_t status;
+
+Sensors sensors;
+
 float constant1 = 3.3 / 4096.0 / 100 * 1000 / 100; // mV/mOhm = Amperes
 float constant2 = 3.3 / 4096.0 / 100;
 
-pb_byte_t encodedADCInfo[75]; //??
 
 struct Power {
   float voltage;
@@ -104,41 +102,44 @@ void ESCCurrent_Request(enum ESCCurrentADCCommand command);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 #define UART_MAX_RX_SIZE 24
-uint8_t uart_rx_buffer[UART_MAX_RX_SIZE];
+#define UART_MAX_TX_SIZE 24
 
-void DriveMotors2(const WarpCommand command) {
+uint8_t uart_rx_buffer[UART_MAX_RX_SIZE];
+uint8_t uart_tx_buffer[UART_MAX_TX_SIZE];
+
+void DriveMotors(const WarpCommand command) {
 
   uint16_t pulse;
 
-  uint16_t ch0_command = command.ch0;
+  const uint16_t ch0_command = command.ch0;
   pulse = (int) round(1.68 * ch0_command);
   __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pulse);
 
-  uint16_t ch1_command = command.ch1;
+  const uint16_t ch1_command = command.ch1;
   pulse = (int) round(1.68 * ch1_command);
   __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulse);
 
-  uint16_t ch2_command = command.ch2;
+  const uint16_t ch2_command = command.ch2;
   pulse = (int) round(1.68 * ch2_command);
   __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, pulse);
 
-  uint16_t ch3_command = command.ch3;
+  const uint16_t ch3_command = command.ch3;
   pulse = (int) round(1.68 * ch3_command);
   __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pulse);
 
-  uint16_t ch4_command = command.ch4;
+  const uint16_t ch4_command = command.ch4;
   pulse = (int) round(1.68 * ch4_command);
   __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, pulse);
 
-  uint16_t ch5_command = command.ch5;
+  const uint16_t ch5_command = command.ch5;
   pulse = (int) round(1.68 * ch5_command);
   __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, pulse);
 
-  uint16_t ch6_command = command.ch6;
+  const uint16_t ch6_command = command.ch6;
   pulse = (int) round(1.68 * ch6_command);
   __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pulse);
 
-  uint16_t ch7_command = command.ch7;
+  const uint16_t ch7_command = command.ch7;
   pulse = (int) round(1.68 * ch7_command);
   __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, pulse);
 
@@ -213,33 +214,21 @@ int main(void)
 	
 	
 	HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[0], UART_MAX_RX_SIZE);
-	//struct _WarpCommand PWM_ChannelData;// = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
 	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	//status = START_ONETIME;
-	DriveMotors2(default_esc_command);
+	
+	DriveMotors(default_esc_command);
   while (1)
   {
-		if ( cmd_ready_flag == 1){
+		if (cmd_ready_flag == 1){
 			cmd_ready_flag = 0;
 
-			// ESCCurrent_Request(START_ONETIME);
+			ESCCurrent_Request(START_ONETIME);
 			
-			WarpCommand cmd = {
-				.ch0 = 1800,
-				.ch1 = 1700,
-				.ch2 = 1600,
-				.ch3 = 1500,
-				.ch4 = 1400,
-				.ch5 = 1300,
-				.ch6 = 1200,
-				.ch7 = 1100
-			};
-			
-			DriveMotors2(esc_command);
+			DriveMotors(esc_command);
 		}
 		
 		HAL_Delay(1);
@@ -319,12 +308,14 @@ void ESCCurrent_Request(enum ESCCurrentADCCommand command) {
 		sensors.batt_current = battery.current;
 		sensors.batt_voltage = battery.voltage;
 		
+		UART_HandleTypeDef* huart = &huart1;
+		uint32_t tx_count = huart->RxXferCount;
+		uint32_t tx_size = huart->RxXferSize;
 		
-		pb_ostream_t pb_ostream =  pb_ostream_from_buffer(encodedADCInfo, sizeof(encodedADCInfo));
-		const pb_msgdesc_t* fields;
-		pb_encode(&pb_ostream, fields, &sensors);
+		pb_ostream_t pb_ostream =  pb_ostream_from_buffer(&uart_tx_buffer[0], tx_size);
+		pb_encode(&pb_ostream, Sensors_fields, &sensors);
 	  
-		if (HAL_UART_Transmit(&huart1, (uint8_t*) encodedADCInfo, sizeof(encodedADCInfo), 1000)!= HAL_OK) 
+		if (HAL_UART_Transmit(&huart1, &uart_tx_buffer[0], UART_MAX_TX_SIZE, 1000)!= HAL_OK) 
 			Error_Handler();
 
 		
