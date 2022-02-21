@@ -46,3 +46,15 @@ warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
 warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\limits.h
 warp_firmware\stm32f4xx_it.o: ../Core/Inc/pb_decode.h
 warp_firmware\stm32f4xx_it.o: ../Core/Inc/pb_encode.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/adc.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/crc.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/dma.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/tim.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/usart.h
+warp_firmware\stm32f4xx_it.o: ../USB_DEVICE/App/usb_device.h
+warp_firmware\stm32f4xx_it.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
+warp_firmware\stm32f4xx_it.o: ../USB_DEVICE/Target/usbd_conf.h
+warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+warp_firmware\stm32f4xx_it.o: ../Core/Inc/gpio.h
+warp_firmware\stm32f4xx_it.o: D:\Keil\ARM\ARMCC\Bin\..\include\math.h

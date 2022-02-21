@@ -81,7 +81,7 @@ struct Power {
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void DriveMotors(struct _WarpCommand command);
+
 void ESCCurrent_Request(enum ESCCurrentADCCommand command);
 
 /* USER CODE END PFP */
@@ -143,20 +143,19 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
 	
-	struct _WarpCommand PWM_ChannelData;// = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
+	//struct _WarpCommand PWM_ChannelData;// = {1100, 1800, 1300, 1400, 1500, 1400, 1800, 1500};
 	
-  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	status = START_ONETIME;
+	//status = START_ONETIME;
   while (1)
   {
 		
-		ESCCurrent_Request(status);
+		ESCCurrent_Request(START_ONETIME);
 		
-		DriveMotors(PWM_ChannelData);
+		
 		
 		HAL_Delay(500);
 		
@@ -214,44 +213,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void DriveMotors(struct _WarpCommand command) {
 
-  uint16_t pulse;
-
-  uint16_t ch0_command = command.ch0;
-  pulse = (int) round(1.68 * ch0_command);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pulse);
-
-  uint16_t ch1_command = command.ch1;
-  pulse = (int) round(1.68 * ch1_command);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulse);
-
-  uint16_t ch2_command = command.ch2;
-  pulse = (int) round(1.68 * ch2_command);
-  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, pulse);
-
-  uint16_t ch3_command = command.ch3;
-  pulse = (int) round(1.68 * ch3_command);
-  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pulse);
-
-  uint16_t ch4_command = command.ch4;
-  pulse = (int) round(1.68 * ch4_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, pulse);
-
-  uint16_t ch5_command = command.ch5;
-  pulse = (int) round(1.68 * ch5_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, pulse);
-
-  uint16_t ch6_command = command.ch6;
-  pulse = (int) round(1.68 * ch6_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pulse);
-
-  uint16_t ch7_command = command.ch7;
-  pulse = (int) round(1.68 * ch7_command);
-  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, pulse);
-
-
-}
 
 
 void ESCCurrent_Request(enum ESCCurrentADCCommand command) {
