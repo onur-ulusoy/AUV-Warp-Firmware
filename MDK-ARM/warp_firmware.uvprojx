@@ -504,6 +504,21 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>fonts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\fonts.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\ssd1306.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c-lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\i2c-lcd.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

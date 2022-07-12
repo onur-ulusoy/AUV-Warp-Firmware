@@ -25,6 +25,7 @@
 #include "usb_device.h"
 #include "gpio.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <math.h>
@@ -33,6 +34,9 @@
 #include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
 #include "pb_decode.h"
 #include "pb_encode.h"
+#include "ssd1306.h"
+#include "fonts.h"
+#include "i2c-lcd.h"
 
 enum ADC_ControlCommand{
   STOP = 0, // stop sending adc data
@@ -162,6 +166,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	SSD1306_Init();
+	SSD1306_GotoXY(0,0);
+  SSD1306_Puts("ITU AUV Team", &Font_11x18, (SSD1306_COLOR_t) 0x01);
+  SSD1306_UpdateScreen();
 	
   while (1)
   {
@@ -302,7 +310,7 @@ void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx) {
 				ADS_WriteRead_Buffer[1] = 0xE3; // 11100011
 				break;
 			case 3: //ADS ch3
-				ADS_WriteRead_Buffer[1] = 0xE3; // 11110011
+				ADS_WriteRead_Buffer[1] = 0xF3; // 11110011
 				break;
 			default:
 				break;

@@ -55,3 +55,6 @@ warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
 warp_firmware\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\limits.h
 warp_firmware\main.o: ../Core/Inc/pb_decode.h
 warp_firmware\main.o: ../Core/Inc/pb_encode.h
+warp_firmware\main.o: ../Core/Inc/ssd1306.h
+warp_firmware\main.o: ../Core/Inc/fonts.h
+warp_firmware\main.o: ../Core/Inc/i2c-lcd.h
