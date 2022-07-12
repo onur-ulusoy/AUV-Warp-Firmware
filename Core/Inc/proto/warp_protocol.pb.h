@@ -11,27 +11,39 @@
 
 /* Struct definitions */
 typedef struct _Sensors { 
-    float ch0_current; 
-    float ch1_current; 
-    float ch2_current; 
-    float ch3_current; 
-    float ch4_current; 
-    float ch5_current; 
-    float ch6_current; 
-    float ch7_current; 
-    float batt_voltage; 
-    float batt_current; 
+													 //Based on the current schematic:
+    float esc_ch0_current; //ESC1 -> ADS1 A0
+    float esc_ch1_current; //ESC2 -> ADS1 A1
+    float esc_ch2_current; //ESC3 -> ADS1 A2
+    float esc_ch3_current; //ESC4 -> ADS1 A3
+	
+    float esc_ch4_current; //ESC5 -> ADS2 A0
+    float esc_ch5_current; //ESC6 -> ADS2 A3
+    float esc_ch6_current; //ESC7 -> ADS2 A1 
+    float esc_ch7_current; //ESC8 -> ADS2 A2
+	
+	  float conv1_12V_voltage; 		//ADS3 A0
+		float conv2_5VHP_voltage;		//ADS3 A1
+		float batt_voltage; 				//ADS3 A2
+		float esc_temp; 						//ADS3 A3
+	
+		float conv2_5VHP_current;		//ADS4 A0
+		float conv1_12V_current;    //ADS4 A1
+		float module_voltage;				//ADS4 A2
+	  float module_current;				//ADS4 A3
+
+
 } Sensors;
 
 typedef struct _WarpCommand { 
-    uint32_t ch0; 
-    uint32_t ch1; 
-    uint32_t ch2; 
-    uint32_t ch3; 
-    uint32_t ch4; 
-    uint32_t ch5; 
-    uint32_t ch6; 
-    uint32_t ch7; 
+    uint32_t esc_pwm_ch0; 
+    uint32_t esc_pwm_ch1; 
+    uint32_t esc_pwm_ch2; 
+    uint32_t esc_pwm_ch3;
+    uint32_t esc_pwm_ch4;
+    uint32_t esc_pwm_ch5; 
+    uint32_t esc_pwm_ch6;
+    uint32_t esc_pwm_ch7;
 } WarpCommand;
 
 
@@ -46,49 +58,67 @@ extern "C" {
 #define Sensors_init_zero                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define Sensors_ch0_current_tag                  1
-#define Sensors_ch1_current_tag                  2
-#define Sensors_ch2_current_tag                  3
-#define Sensors_ch3_current_tag                  4
-#define Sensors_ch4_current_tag                  5
-#define Sensors_ch5_current_tag                  6
-#define Sensors_ch6_current_tag                  7
-#define Sensors_ch7_current_tag                  8
-#define Sensors_batt_voltage_tag                 9
-#define Sensors_batt_current_tag                 10
-#define WarpCommand_ch0_tag                      1
-#define WarpCommand_ch1_tag                      2
-#define WarpCommand_ch2_tag                      3
-#define WarpCommand_ch3_tag                      4
-#define WarpCommand_ch4_tag                      5
-#define WarpCommand_ch5_tag                      6
-#define WarpCommand_ch6_tag                      7
-#define WarpCommand_ch7_tag                      8
+#define Sensors_esc_ch0_current_tag              1
+#define Sensors_esc_ch1_current_tag              2
+#define Sensors_esc_ch2_current_tag              3
+#define Sensors_esc_ch3_current_tag              4
+
+#define Sensors_esc_ch4_current_tag              5
+#define Sensors_esc_ch5_current_tag              6
+#define Sensors_esc_ch6_current_tag              7
+#define Sensors_esc_ch7_current_tag              8
+
+#define Sensors_conv1_12V_voltage_tag 					 9
+#define Sensors_conv2_5VHP_voltage_tag 					 10
+#define Sensors_batt_voltage_tag                 11
+#define Sensors_esc_temp_tag                 		 12
+
+#define Sensors_conv2_5VHP_current_tag 					 13
+#define Sensors_conv1_12V_current_tag 					 14
+#define Sensors_module_voltage_tag 					     15
+#define Sensors_module_current_tag 					     16
+
+
+#define WarpCommand_esc_pwm_ch0_tag              1
+#define WarpCommand_esc_pwm_ch1_tag              2
+#define WarpCommand_esc_pwm_ch2_tag              3
+#define WarpCommand_esc_pwm_ch3_tag              4
+#define WarpCommand_esc_pwm_ch4_tag              5
+#define WarpCommand_esc_pwm_ch5_tag              6
+#define WarpCommand_esc_pwm_ch6_tag              7
+#define WarpCommand_esc_pwm_ch7_tag              8
 
 /* Struct field encoding specification for nanopb */
 #define WarpCommand_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   ch0,               1) \
-X(a, STATIC,   SINGULAR, UINT32,   ch1,               2) \
-X(a, STATIC,   SINGULAR, UINT32,   ch2,               3) \
-X(a, STATIC,   SINGULAR, UINT32,   ch3,               4) \
-X(a, STATIC,   SINGULAR, UINT32,   ch4,               5) \
-X(a, STATIC,   SINGULAR, UINT32,   ch5,               6) \
-X(a, STATIC,   SINGULAR, UINT32,   ch6,               7) \
-X(a, STATIC,   SINGULAR, UINT32,   ch7,               8)
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch0,               1) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch1,               2) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch2,               3) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch3,               4) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch4,               5) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch5,               6) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch6,               7) \
+X(a, STATIC,   SINGULAR, UINT32,   esc_pwm_ch7,               8)
 #define WarpCommand_CALLBACK NULL
 #define WarpCommand_DEFAULT NULL
 
 #define Sensors_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch0_current,       1) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch1_current,       2) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch2_current,       3) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch3_current,       4) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch4_current,       5) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch5_current,       6) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch6_current,       7) \
-X(a, STATIC,   SINGULAR, FLOAT,    ch7_current,       8) \
-X(a, STATIC,   SINGULAR, FLOAT,    batt_voltage,      9) \
-X(a, STATIC,   SINGULAR, FLOAT,    batt_current,     10)
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch0_current,       1)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch1_current,       2)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch2_current,       3)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch3_current,       4)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch4_current,       5)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch5_current,       6)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch6_current,       7)  \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_ch7_current,       8)  \
+X(a, STATIC,   SINGULAR, FLOAT,    conv1_12V_current,     9)  \
+X(a, STATIC,   SINGULAR, FLOAT,    conv2_5VHP_voltage,    10) \
+X(a, STATIC,   SINGULAR, FLOAT,    batt_voltage,     			11) \
+X(a, STATIC,   SINGULAR, FLOAT,    esc_temp,    				  12) \
+X(a, STATIC,   SINGULAR, FLOAT,    conv2_5VHP_current,    13) \
+X(a, STATIC,   SINGULAR, FLOAT,    conv1_12V_current,     14) \
+X(a, STATIC,   SINGULAR, FLOAT,    module_voltage,    	  15) \
+X(a, STATIC,   SINGULAR, FLOAT,    module_current,   		  16)
+
 #define Sensors_CALLBACK NULL
 #define Sensors_DEFAULT NULL
 

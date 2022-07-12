@@ -22,13 +22,12 @@ warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
-warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
-warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
-warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
+warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h
+warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 warp_firmware\stm32f4xx_hal_pwr.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
