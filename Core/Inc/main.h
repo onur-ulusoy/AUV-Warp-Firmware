@@ -79,6 +79,7 @@ void Error_Handler(void);
 #define ESC8_PWM_GPIO_Port GPIOB
 #define ESC7_PWM_Pin GPIO_PIN_9
 #define ESC7_PWM_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
