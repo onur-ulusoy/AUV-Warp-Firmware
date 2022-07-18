@@ -146,6 +146,7 @@ int main(void)
   MX_TIM4_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
@@ -446,7 +447,7 @@ void CDC_FS_Receive_CpltCallback(uint8_t *Buf, uint32_t *Len) {
 
 /**
   * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM2 interrupt took place, inside
+  * @note   This function is called  when TIM9 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
   * a global variable "uwTick" used as application time base.
   * @param  htim : TIM handle
@@ -457,7 +458,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM2) {
+  if (htim->Instance == TIM9) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
