@@ -20,7 +20,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "crc.h"
-#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
@@ -35,13 +34,6 @@
 #include "fonts.h"
 #include "i2c-lcd.h"
 #include "analogdata.h"
-
-
-struct ADS_Adc_Data ADS1;
-struct ADS_Adc_Data ADS2;
-struct ADS_Adc_Data ADS3;
-struct ADS_Adc_Data ADS4;
-
 
 /* USER CODE END Includes */
 
@@ -169,6 +161,7 @@ int main(void)
   SSD1306_Puts("Warp Driver Board", &Font_11x18, (SSD1306_COLOR_t) 0x01);
   SSD1306_UpdateScreen();
 	
+  initialize_ADS_data();
   while (1)
   {
 		if (cmd_ready_flag == 1){

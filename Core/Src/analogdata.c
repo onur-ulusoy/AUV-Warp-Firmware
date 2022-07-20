@@ -1,58 +1,68 @@
 #include "analogdata.h"
+#include "i2c.h"
+
+void configure_channel(uint8_t channel, unsigned char* buffer) {
+    buffer[0] = 0x01; //Address point register -> Config = 01
+    buffer[2] = 0x83; //Config register last 8 bits [7:0] = 10000011 (default) = 0x83
+    
+    switch(channel){
+        case 0: //ADS ch0
+            buffer[1] = 0xC3; // 11000011
+            break;
+        case 1: //ADS ch1
+            buffer[1] = 0xD3; // 11010011
+            break;
+        case 2: //ADS ch2
+            buffer[1] = 0xE3; // 11100011
+            break;
+        case 3: //ADS ch3
+            buffer[1] = 0xF3; // 11110011
+            break;
+        default:
+            break;
+    }
+}
+
+void read_channel_data(uint8_t channel, struct ADS_Adc_Data* ADSx, int16_t ADC_Data) {
+    ADC_Data *= voltage_conversion_constant;
+    
+    switch(channel){
+        case 0: //ADS ch0
+            ADSx->ch_A0 = ADC_Data;
+            break;
+        case 1: //ADS ch1
+            ADSx->ch_A1 = ADC_Data;
+            break;
+        case 2: //ADS ch2
+            ADSx->ch_A2 = ADC_Data;
+            break;
+        case 3: //ADS ch3
+            ADSx->ch_A3 = ADC_Data;
+            break;
+        default:
+            break;
+    }
+}
 
 void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx) {
-	unsigned char ADS_WriteRead_Buffer[3];
-	int16_t ADC_Data;
-	unsigned char ADS_Transmit_Addr = addr << 1;
-	unsigned char ADS_Receive_Addr = ADS_Transmit_Addr + 1;
-	
-	for (uint8_t i = 0; i < 4; i++){
-		ADS_WriteRead_Buffer[0] = 0x01; //Address point register -> Config = 01
-		ADS_WriteRead_Buffer[2] = 0x83; //Config register last 8 bits [7:0] = 10000011 (default) = 0x83
-		
-		//Config register first 8 bits [15:8]
-		switch(i){
-			case 0: //ADS ch0
-				ADS_WriteRead_Buffer[1] = 0xC3; // 11000011
-				break;
-			case 1: //ADS ch1
-				ADS_WriteRead_Buffer[1] = 0xD3; // 11010011
-				break;
-			case 2: //ADS ch2
-				ADS_WriteRead_Buffer[1] = 0xE3; // 11100011
-				break;
-			case 3: //ADS ch3
-				ADS_WriteRead_Buffer[1] = 0xF3; // 11110011
-				break;
-			default:
-				break;
-		}
-		
-		HAL_I2C_Master_Transmit(&hi2c1, ADS_Transmit_Addr, ADS_WriteRead_Buffer, 3, 100);
-		ADS_WriteRead_Buffer[0] = 0x00;
-		HAL_I2C_Master_Transmit(&hi2c1, ADS_Transmit_Addr, ADS_WriteRead_Buffer, 1, 100);
-		HAL_I2C_Master_Receive(&hi2c1, ADS_Receive_Addr, ADS_WriteRead_Buffer, 2, 100);
-		
-		ADC_Data = (ADS_WriteRead_Buffer[0] << 8) | ADS_WriteRead_Buffer[1];
-		ADC_Data *= voltage_conversion_constant;
-		switch(i){
-			case 0: //ADS ch0
-				ADSx->ch_A0 = ADC_Data;
-				break;
-			case 1: //ADS ch1
-				ADSx->ch_A1 = ADC_Data;
-				break;
-			case 2: //ADS ch2
-				ADSx->ch_A2 = ADC_Data;
-				break;
-			case 3: //ADS ch3
-				ADSx->ch_A3 = ADC_Data;
-				break;
-			default:
-				break;
-		}
-	}
-	HAL_Delay(10);
+    unsigned char ADS_WriteRead_Buffer[3];
+    int16_t ADC_Data;
+    unsigned char ADS_Transmit_Addr = addr << 1;
+    unsigned char ADS_Receive_Addr = ADS_Transmit_Addr + 1;
+    
+    for (uint8_t i = 0; i < 4; i++){
+        configure_channel(i, ADS_WriteRead_Buffer);
+        
+        HAL_I2C_Master_Transmit(&hi2c1, ADS_Transmit_Addr, ADS_WriteRead_Buffer, 3, 100);
+        ADS_WriteRead_Buffer[0] = 0x00;
+        HAL_I2C_Master_Transmit(&hi2c1, ADS_Transmit_Addr, ADS_WriteRead_Buffer, 1, 100);
+        HAL_I2C_Master_Receive(&hi2c1, ADS_Receive_Addr, ADS_WriteRead_Buffer, 2, 100);
+        
+        ADC_Data = (ADS_WriteRead_Buffer[0] << 8) | ADS_WriteRead_Buffer[1];
+        
+        read_channel_data(i, ADSx, ADC_Data);
+    }
+    HAL_Delay(10);
 }
 
 void AnalogDataRequest(enum ADC_ControlCommand command) {
@@ -124,4 +134,14 @@ void AnalogDataRequest(enum ADC_ControlCommand command) {
 		SSD1306_UpdateScreen();
 		
   }
+}
+
+void initialize_ADS_data()
+{
+    // Initialize ADS1, ADS2, ADS3, ADS4
+
+    ADS_Data[0] = &ADS1;
+    ADS_Data[1] = &ADS2;
+    ADS_Data[2] = &ADS3;
+    ADS_Data[3] = &ADS4;
 }

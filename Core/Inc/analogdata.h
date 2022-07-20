@@ -29,7 +29,18 @@ char OLED_Buffer[70];
 #define shunt_resistance 2 // mOhms
 #define voltage_celcius_conversion_constant 10; // 10mV / 1 Celcius
 
+void configure_channel(uint8_t channel, unsigned char* buffer);
+void read_channel_data(uint8_t channel, struct ADS_Adc_Data* ADSx, int16_t ADC_Data);
 void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx);
 void AnalogDataRequest(enum ADC_ControlCommand command);
+
+struct ADS_Adc_Data ADS1;
+struct ADS_Adc_Data ADS2;
+struct ADS_Adc_Data ADS3;
+struct ADS_Adc_Data ADS4;
+
+struct ADS_Adc_Data *ADS_Data[4];
+
+void initialize_ADS_data();
 
 #endif //ANALOGDATA_H

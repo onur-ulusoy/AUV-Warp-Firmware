@@ -44,3 +44,6 @@
 
 # Ignore .DS_Store (macOS folder settings)
 .DS_Store
+
+# Ignore VS Code generated files
+/.vscode
