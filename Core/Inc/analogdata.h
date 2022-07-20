@@ -2,8 +2,6 @@
 #define ANALOGDATA_H
 
 #include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
-#include "pb_decode.h"
-#include "pb_encode.h"
 
 struct ADS_Adc_Data{
 	float ch_A0;
@@ -18,7 +16,6 @@ enum ADC_ControlCommand{
   START_ONETIME = 2 // send adc data once
 };
 
-WarpCommand esc_command;
 Sensors sensors;
 
 volatile uint8_t cmd_ready_flag = 0;
