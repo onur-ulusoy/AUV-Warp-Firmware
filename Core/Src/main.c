@@ -36,7 +36,7 @@
 #include "i2c-lcd.h"
 #include "analogdata.h"
 #include "motordrive.h"
-#include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
+#include "warp_protocol.pb.h" //generated using warp_protocol.proto
 #include "pb_decode.h"
 #include "pb_encode.h"
 
@@ -169,7 +169,7 @@ int main(void)
   {
 		if (cmd_ready_flag == 1){
 			cmd_ready_flag = 0;
-			DriveMotors(esc_command);
+			DriveMotors(&esc_command);
 		}
 		
 		AnalogDataRequest(START_CONTINUOUS);

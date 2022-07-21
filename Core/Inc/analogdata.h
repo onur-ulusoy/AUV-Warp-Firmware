@@ -1,7 +1,7 @@
 #ifndef ANALOGDATA_H
 #define ANALOGDATA_H
 
-#include "proto/warp_protocol.pb.h" //generated using warp_protocol.proto
+#include "warp_protocol.pb.h" //generated using warp_protocol.proto
 
 struct ADS_Adc_Data{
 	float ch_A0;
