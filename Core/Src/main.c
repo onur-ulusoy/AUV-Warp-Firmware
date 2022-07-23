@@ -230,18 +230,27 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-//Global UART Interrupt
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) { // PWM struct is being received from mainboard.
-	if (huart->Instance == huart1.Instance) {
-		uint32_t rx_count = huart->RxXferCount;
-		uint32_t rx_size = huart->RxXferSize;
-		
-		pb_istream_t pb_instream =  pb_istream_from_buffer(&uart_rx_buffer[0], rx_size);
-		pb_decode(&pb_instream, WarpCommand_fields, &esc_command); // PWM struct has being written to the global variable esc_command.
-		HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[0], UART_MAX_RX_SIZE); 
-		
-		cmd_ready_flag = 1; // PWM struct is received successfully. Function DriveMotors will be executed.
-	}
+/* Global UART interrupt callback
+ * This function gets triggered when UART reception is complete.
+ * The received data is interpreted as a WarpCommand structure.
+ */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+    // Check if this interrupt was triggered by the correct UART instance
+    if (huart->Instance == huart1.Instance) {
+        // Decode the received data into the esc_command structure
+        pb_istream_t pb_instream = pb_istream_from_buffer(uart_rx_buffer, UART_MAX_RX_SIZE);
+        bool decode_status = pb_decode(&pb_instream, WarpCommand_fields, &esc_command);
+        
+        if (decode_status) {
+            // If decoding was successful, set the command ready flag
+            cmd_ready_flag = 1;
+        } else {
+            // Handle decoding error
+        }
+
+        // Re-enable the UART interrupt for next data reception
+        HAL_UART_Receive_IT(&huart1, uart_rx_buffer, UART_MAX_RX_SIZE); 
+    }
 }
 
 
