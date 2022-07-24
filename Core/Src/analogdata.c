@@ -102,15 +102,7 @@ void AnalogDataRequest(enum ADC_ControlCommand command) {
 		sensors.module_current = ADS4.ch_A3; // !!NOT COMPLETED!! // Shunt resistance? Amplifier gain?
 		
 		
-	// 	UART_HandleTypeDef* huart = &huart1;
-	// 	uint32_t tx_count = huart->RxXferCount;
-	// 	uint32_t tx_size = huart->RxXferSize;
 		
-	// 	pb_ostream_t pb_ostream =  pb_ostream_from_buffer(&uart_tx_buffer[0], tx_size);
-	// 	pb_encode(&pb_ostream, Sensors_fields, &sensors);
-	  
-	// 	if (HAL_UART_Transmit(&huart1, &uart_tx_buffer[0], UART_MAX_TX_SIZE, 1000)!= HAL_OK) 
-	// 		Error_Handler();
 		
 	// 	SSD1306_Fill((SSD1306_COLOR_t)0);
 		

@@ -130,8 +130,8 @@ extern const pb_msgdesc_t Sensors_msg;
 #define Sensors_fields &Sensors_msg
 
 /* Maximum encoded size of messages (where known) */
-#define Sensors_size                             50
-#define WarpCommand_size                         48
+#define Sensors_size                             64
+#define WarpCommand_size                         32
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -38,7 +38,8 @@
 #include "motordrive.h"
 #include "warp_protocol.pb.h" //generated using warp_protocol.proto
 #include "pb_decode.h"
-#include "pb_encode.h"
+
+uint8_t uart_rx_buffer[WarpCommand_size];
 
 /* USER CODE END Includes */
 
@@ -72,11 +73,6 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define UART_MAX_RX_SIZE 64	
-#define UART_MAX_TX_SIZE 64
-
-uint8_t uart_rx_buffer[UART_MAX_RX_SIZE];
-uint8_t uart_tx_buffer[UART_MAX_TX_SIZE];
 
 
 /* USER CODE END 0 */
@@ -130,7 +126,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
 	
 	
-	HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[0], UART_MAX_RX_SIZE);
+	HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[0], WarpCommand_size);
 	
   /* USER CODE END 2 */
 
@@ -238,7 +234,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     // Check if this interrupt was triggered by the correct UART instance
     if (huart->Instance == huart1.Instance) {
         // Decode the received data into the esc_command structure
-        pb_istream_t pb_instream = pb_istream_from_buffer(uart_rx_buffer, UART_MAX_RX_SIZE);
+        pb_istream_t pb_instream = pb_istream_from_buffer(uart_rx_buffer, WarpCommand_size);
         bool decode_status = pb_decode(&pb_instream, WarpCommand_fields, &esc_command);
         
         if (decode_status) {
@@ -249,11 +245,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         }
 
         // Re-enable the UART interrupt for next data reception
-        HAL_UART_Receive_IT(&huart1, uart_rx_buffer, UART_MAX_RX_SIZE); 
+        HAL_UART_Receive_IT(&huart1, uart_rx_buffer, WarpCommand_size); 
     }
 }
-
-
 
 void CDC_FS_Receive_CpltCallback(uint8_t *Buf, uint32_t *Len) {
   // Receive Code Here.
