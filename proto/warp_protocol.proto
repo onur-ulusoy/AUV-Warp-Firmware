@@ -1,41 +1,31 @@
 syntax = "proto3";
 
-message Command_and_PWM { 
-
-    //command that controls the status of esc current data transmittion to the main board will be received from the main board
-    uint32 status = 1;
-    
-    enum ESCCurrentADCCommand{
-        STOP = 0;
-        START_CONTINIOUS = 1;
-        START_ONETIME = 2;
-      };
-
-
-
-    //PWM periods need to drive escs will be received from the main board
-    uint32 ch0 = 3; 
-    uint32 ch1 = 4;
-    uint32 ch2 = 5;
-    uint32 ch3 = 6;
-    uint32 ch4 = 7;
-    uint32 ch5 = 8;
-    uint32 ch6 = 9;
-    uint32 ch7 = 10;
-
+message WarpCommand {
+    uint32 esc_pwm_ch0 = 1;
+    uint32 esc_pwm_ch1 = 2;
+    uint32 esc_pwm_ch2 = 3;
+    uint32 esc_pwm_ch3 = 4;
+    uint32 esc_pwm_ch4 = 5;
+    uint32 esc_pwm_ch5 = 6;
+    uint32 esc_pwm_ch6 = 7;
+    uint32 esc_pwm_ch7 = 8;
 }
 
-message ADC_data { //esc currents and batt voltage/current info will be transmitted to the main board
-
-    float ch0_current = 1;
-    float ch1_current = 2;
-    float ch2_current = 3;
-    float ch3_current = 4;
-    float ch4_current = 5;
-    float ch5_current = 6;
-    float ch6_current = 7;
-    float ch7_current = 8;
-
-    float batt_voltage = 9;
-    float batt_current = 10;
+message Sensors {
+    float esc_ch0_current = 1;
+    float esc_ch1_current = 2;
+    float esc_ch2_current = 3;
+    float esc_ch3_current = 4;
+    float esc_ch4_current = 5;
+    float esc_ch5_current = 6;
+    float esc_ch6_current = 7;
+    float esc_ch7_current = 8;
+    float conv1_12V_voltage = 9;
+    float conv2_5VHP_voltage = 10;
+    float batt_voltage = 11;
+    float esc_temp = 12;
+    float conv2_5VHP_current = 13;
+    float conv1_12V_current = 14;
+    float module_voltage = 15;
+    float module_current = 16;
 }
