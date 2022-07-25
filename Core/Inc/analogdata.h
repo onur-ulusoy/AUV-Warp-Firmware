@@ -16,9 +16,9 @@ enum ADC_ControlCommand{
   START_ONETIME = 2 // send adc data once
 };
 
-Sensors sensors;
+extern volatile Sensors sensors;
 
-volatile uint8_t cmd_ready_flag = 0;
+extern volatile uint8_t cmd_ready_flag;
 
 #define voltage_conversion_constant 0.125 // 2*4096 mV / 2^16 (register size)
 #define shunt_amplifier_gain 51
@@ -29,13 +29,6 @@ void configure_channel(uint8_t channel, unsigned char* buffer);
 void read_channel_data(uint8_t channel, struct ADS_Adc_Data* ADSx, int16_t ADC_Data);
 void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx);
 void AnalogDataRequest(enum ADC_ControlCommand command);
-
-struct ADS_Adc_Data ADS1;
-struct ADS_Adc_Data ADS2;
-struct ADS_Adc_Data ADS3;
-struct ADS_Adc_Data ADS4;
-
-struct ADS_Adc_Data *ADS_Data[4];
 
 void initialize_ADS_data();
 

@@ -33,8 +33,7 @@
 #include <string.h>
 #include "analogdata.h"
 #include "motordrive.h"
-#include "warp_protocol.pb.h" //generated using warp_protocol.proto
-#include "pb_decode.h"
+#include "monitoring.h"
 
 uint8_t uart_rx_buffer[WarpCommand_size];
 
@@ -139,30 +138,21 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	lcd_init();
 	SSD1306_Init();
-	SSD1306_Fill((SSD1306_COLOR_t)0);
-	
-	SSD1306_GotoXY(0,5);
-  SSD1306_Puts("ITU AUV Team", &Font_11x18, (SSD1306_COLOR_t) 0x01);
-	SSD1306_GotoXY(0,30);
-  SSD1306_Puts("Warp Driver Board", &Font_11x18, (SSD1306_COLOR_t) 0x01);
-  SSD1306_UpdateScreen();
-	HAL_Delay(1000);
-	
-	SSD1306_Fill((SSD1306_COLOR_t)0);
-	HAL_Delay(1000);
-	
-	SSD1306_GotoXY(0,5);
-  SSD1306_Puts("ITU AUV Team", &Font_11x18, (SSD1306_COLOR_t) 0x01);
-	SSD1306_GotoXY(0,30);
-  SSD1306_Puts("Warp Driver Board", &Font_11x18, (SSD1306_COLOR_t) 0x01);
-  SSD1306_UpdateScreen();
+
+  printOpeningMessage();
+
+  // Delay for 1 second to allow the message to be read
+  HAL_Delay(1000);
+    
+  // Clear the OLED screen again after the delay
+  SSD1306_Fill(0x00);
 	
   initialize_ADS_data();
   while (1)
   {
 		if (cmd_ready_flag == 1){
 			cmd_ready_flag = 0;
-			DriveMotors(&esc_command);
+			DriveMotors((WarpCommand *)&esc_command);
 		}
 		
 		AnalogDataRequest(START_CONTINUOUS);
@@ -232,7 +222,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == huart1.Instance) {
         // Decode the received data into the esc_command structure
         pb_istream_t pb_instream = pb_istream_from_buffer(uart_rx_buffer, WarpCommand_size);
-        bool decode_status = pb_decode(&pb_instream, WarpCommand_fields, &esc_command);
+        bool decode_status = pb_decode(&pb_instream, WarpCommand_fields, (void *)&esc_command);
         
         if (decode_status) {
             // If decoding was successful, set the command ready flag

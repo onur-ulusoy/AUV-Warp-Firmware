@@ -1,5 +1,14 @@
 #include "analogdata.h"
 #include "i2c.h"
+volatile Sensors sensors;
+volatile uint8_t cmd_ready_flag = 0;
+
+struct ADS_Adc_Data ADS1;
+struct ADS_Adc_Data ADS2;
+struct ADS_Adc_Data ADS3;
+struct ADS_Adc_Data ADS4;
+
+struct ADS_Adc_Data *ADS_Data[4];
 
 void configure_channel(uint8_t channel, unsigned char* buffer) {
     buffer[0] = 0x01; //Address point register -> Config = 01

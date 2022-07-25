@@ -46,6 +46,16 @@ Core/Src/usart.c \
 Core/Src/stm32f4xx_it.c \
 Core/Src/stm32f4xx_hal_msp.c \
 Core/Src/stm32f4xx_hal_timebase_tim.c \
+Core/Src/analogdata.c \
+Core/Src/motordrive.c \
+Core/Src/monitoring.c \
+Core/Src/pb_common.c \
+Core/Src/pb_decode.c \
+Core/Src/pb_encode.c \
+Core/Src/ssd1306.c \
+Core/Src/warp_protocol.pb.c \
+Core/Src/i2c-lcd.c \
+Core/Src/fonts.c \
 USB_DEVICE/App/usb_device.c \
 USB_DEVICE/App/usbd_desc.c \
 USB_DEVICE/App/usbd_cdc_if.c \

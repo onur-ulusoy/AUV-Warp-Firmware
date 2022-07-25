@@ -1,5 +1,7 @@
 #include "motordrive.h"
 
+volatile WarpCommand esc_command;
+
 struct ChannelConfig {
     uint16_t command_value;
     TIM_HandleTypeDef* timer;
