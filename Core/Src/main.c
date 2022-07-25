@@ -31,9 +31,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include "ssd1306.h"
-#include "fonts.h"
-#include "i2c-lcd.h"
 #include "analogdata.h"
 #include "motordrive.h"
 #include "warp_protocol.pb.h" //generated using warp_protocol.proto

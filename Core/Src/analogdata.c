@@ -100,31 +100,6 @@ void AnalogDataRequest(enum ADC_ControlCommand command) {
 		//CURRENT-VOLTAGE MODULE
 		sensors.module_voltage = ADS4.ch_A2;
 		sensors.module_current = ADS4.ch_A3; // !!NOT COMPLETED!! // Shunt resistance? Amplifier gain?
-		
-		
-		
-		
-	// 	SSD1306_Fill((SSD1306_COLOR_t)0);
-		
-	// 	sprintf(OLED_Buffer, "ESC1: %2.1f A ESC2: %2.1f A ESC3: %2.1f A ESC4: %2.1f A", sensors.esc_ch0_current, sensors.esc_ch1_current, sensors.esc_ch2_current, sensors.esc_ch3_current);
-	// 	SSD1306_GotoXY(0,0);
-	// 	SSD1306_Puts(OLED_Buffer, &Font_7x10, (SSD1306_COLOR_t) 0x01);
-		
-	//   sprintf(OLED_Buffer, "ESC5: %2.1f A ESC6: %2.1f A ESC7: %2.1f A ESC8: %2.1f A", sensors.esc_ch4_current, sensors.esc_ch5_current, sensors.esc_ch6_current, sensors.esc_ch7_current);
-	// 	SSD1306_GotoXY(0,15);
-	// 	SSD1306_Puts(OLED_Buffer, &Font_7x10, (SSD1306_COLOR_t) 0x01);
-		
-	// 	sprintf(OLED_Buffer, "CONV1: %2.1f V %2.1f A CONV2: %2.1f V %2.1f A", sensors.conv1_12V_voltage, sensors.conv1_12V_current, sensors.conv2_5VHP_voltage, sensors.conv2_5VHP_current);
-	// 	SSD1306_GotoXY(0,30);
-	// 	SSD1306_Puts(OLED_Buffer, &Font_7x10, (SSD1306_COLOR_t) 0x01);
-		
-	// 	sprintf(OLED_Buffer, "BATT: %2.1f V ESC TEMP: %2.1f C Module: %2.1f V %2.1f A", sensors.batt_voltage, sensors.esc_temp, sensors.module_voltage, sensors.module_current);
-	// 	SSD1306_GotoXY(0,45);
-	// 	SSD1306_Puts(OLED_Buffer, &Font_7x10, (SSD1306_COLOR_t) 0x01);
-		
-		
-	// 	SSD1306_UpdateScreen();
-		
   }
 }
 

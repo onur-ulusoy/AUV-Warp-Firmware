@@ -19,7 +19,6 @@ enum ADC_ControlCommand{
 Sensors sensors;
 
 volatile uint8_t cmd_ready_flag = 0;
-char OLED_Buffer[70];
 
 #define voltage_conversion_constant 0.125 // 2*4096 mV / 2^16 (register size)
 #define shunt_amplifier_gain 51
