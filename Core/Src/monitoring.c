@@ -25,9 +25,6 @@ void transmitSensorData(UART_HandleTypeDef *huart, Sensors* sensors_data) {
     }
 }
 
-#include "ssd1306.h"
-#include "fonts.h"
-
 void printSensorData(const Sensors* sensorDataPtr) {
     // Buffer for formatting sensor data
     char OLED_Buffer[128];
@@ -71,5 +68,22 @@ void printSensorData(const Sensors* sensorDataPtr) {
     SSD1306_Puts(OLED_Buffer, &Font_7x10, SSD1306_COLOR_WHITE);
 
     // Update the screen with all the new data
+    SSD1306_UpdateScreen();
+}
+
+void printOpeningMessage() 
+{
+    // Clear the OLED screen
+    SSD1306_Fill((SSD1306_COLOR_t)0);
+    
+    // Set the cursor position and display the team name
+    SSD1306_GotoXY(0,5);
+    SSD1306_Puts("ITU AUV Team", &Font_11x18, (SSD1306_COLOR_t)0x01);
+    
+    // Set the cursor position and display the board information
+    SSD1306_GotoXY(0,30);
+    SSD1306_Puts("Warp Driver Board", &Font_11x18, (SSD1306_COLOR_t)0x01);
+    
+    // Update the OLED screen with the new data
     SSD1306_UpdateScreen();
 }
