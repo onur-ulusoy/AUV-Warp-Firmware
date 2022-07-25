@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 message WarpCommand {
+    // PWM periods need to drive ESCs
     uint32 esc_pwm_ch0 = 1;
     uint32 esc_pwm_ch1 = 2;
     uint32 esc_pwm_ch2 = 3;
@@ -12,20 +13,24 @@ message WarpCommand {
 }
 
 message Sensors {
-    float esc_ch0_current = 1;
-    float esc_ch1_current = 2;
-    float esc_ch2_current = 3;
-    float esc_ch3_current = 4;
-    float esc_ch4_current = 5;
-    float esc_ch5_current = 6;
-    float esc_ch6_current = 7;
-    float esc_ch7_current = 8;
-    float conv1_12V_voltage = 9;
-    float conv2_5VHP_voltage = 10;
-    float batt_voltage = 11;
-    float esc_temp = 12;
-    float conv2_5VHP_current = 13;
-    float conv1_12V_current = 14;
-    float module_voltage = 15;
-    float module_current = 16;
+    // ESC currents
+    float esc_ch0_current = 1;  // ESC1 -> ADS1 A0
+    float esc_ch1_current = 2;  // ESC2 -> ADS1 A1
+    float esc_ch2_current = 3;  // ESC3 -> ADS1 A2
+    float esc_ch3_current = 4;  // ESC4 -> ADS1 A3
+    float esc_ch4_current = 5;  // ESC5 -> ADS2 A0
+    float esc_ch5_current = 6;  // ESC6 -> ADS2 A3
+    float esc_ch6_current = 7;  // ESC7 -> ADS2 A1 
+    float esc_ch7_current = 8;  // ESC8 -> ADS2 A2
+
+    // Voltage and current values
+    float conv1_12V_voltage = 9;     // ADS3 A0
+    float conv2_5VHP_voltage = 10;   // ADS3 A1
+    float batt_voltage = 11;         // ADS3 A2
+    float esc_temp = 12;             // ADS3 A3
+
+    float conv2_5VHP_current = 13;   // ADS4 A0
+    float conv1_12V_current = 14;    // ADS4 A1
+    float module_voltage = 15;       // ADS4 A2
+    float module_current = 16;       // ADS4 A3
 }
