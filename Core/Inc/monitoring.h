@@ -9,6 +9,7 @@
 #include "fonts.h"
 #include "i2c-lcd.h"
 #include <stdio.h>
+#include "stm32f4xx_hal.h"
 
 void transmitSensorData(UART_HandleTypeDef *huart, Sensors* sensors_data);
 

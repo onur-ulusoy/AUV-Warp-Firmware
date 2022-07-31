@@ -2,6 +2,8 @@
 #define ANALOGDATA_H
 
 #include "warp_protocol.pb.h" //generated using warp_protocol.proto
+#include "i2c.h"
+#include "gpio.h"
 
 struct ADS_Adc_Data{
 	float ch_A0;
@@ -29,7 +31,6 @@ void configure_channel(uint8_t channel, unsigned char* buffer);
 void read_channel_data(uint8_t channel, struct ADS_Adc_Data* ADSx, int16_t ADC_Data);
 void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx);
 void AnalogDataRequest(enum ADC_ControlCommand command);
-
 void initialize_ADS_data();
 
 #endif //ANALOGDATA_H

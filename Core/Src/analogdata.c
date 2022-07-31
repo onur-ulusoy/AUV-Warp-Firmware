@@ -1,5 +1,4 @@
 #include "analogdata.h"
-#include "i2c.h"
 
 volatile Sensors sensors;
 volatile uint8_t cmd_ready_flag = 0;
@@ -121,4 +120,22 @@ void initialize_ADS_data()
     ADS_Data[1] = &ADS2;
     ADS_Data[2] = &ADS3;
     ADS_Data[3] = &ADS4;
+}
+
+void MCU_Turn_Off() {
+  /* Make the buzzer sound for a short period before entering standby */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
+
+  /* Disable Converters to prevent power distribution */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // PC.13 is the Converter 1 Switch
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET); // PB.2 is the Converter 2 Switch
+
+  /* Disable all used wakeup sources: Pin1(PA.0), modify this part according to your setup */
+  HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);
+
+  /* Clear all related wakeup flags */
+  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+
+  /* Enter the Standby mode */
+  HAL_PWR_EnterSTANDBYMode();
 }
