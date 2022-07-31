@@ -20,16 +20,14 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "crc.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
-#include "i2c.h"
 #include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <math.h>
-#include <stdio.h>
 #include <string.h>
 #include "analogdata.h"
 #include "motordrive.h"
@@ -145,18 +143,12 @@ int main(void)
   HAL_Delay(1000);
     
   // Clear the OLED screen again after the delay
-  SSD1306_Fill(0x00);
+  //SSD1306_Fill(0x00);
 	
   initialize_ADS_data();
   while (1)
   {
-		if (cmd_ready_flag == 1){
-			cmd_ready_flag = 0;
-			DriveMotors((WarpCommand *)&esc_command);
-		}
-		
-		AnalogDataRequest(START_CONTINUOUS);
-		
+				
 		//HAL_Delay(1);
 		
     /* USER CODE END WHILE */

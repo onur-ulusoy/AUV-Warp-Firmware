@@ -25,7 +25,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "analogdata.h"
+#include "motordrive.h"
+#include "monitoring.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,13 +63,6 @@ const osThreadAttr_t sensorRead_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
-/* Definitions for jetsonRead */
-osThreadId_t jetsonReadHandle;
-const osThreadAttr_t jetsonRead_attributes = {
-  .name = "jetsonRead",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
 /* Definitions for monitoring */
 osThreadId_t monitoringHandle;
 const osThreadAttr_t monitoring_attributes = {
@@ -83,7 +78,6 @@ const osThreadAttr_t monitoring_attributes = {
 
 void StartMotorDrive(void *argument);
 void StartSensorRead(void *argument);
-void StartJetsonRead(void *argument);
 void StartMonitoring(void *argument);
 
 extern void MX_USB_DEVICE_Init(void);
@@ -122,9 +116,6 @@ void MX_FREERTOS_Init(void) {
   /* creation of sensorRead */
   sensorReadHandle = osThreadNew(StartSensorRead, NULL, &sensorRead_attributes);
 
-  /* creation of jetsonRead */
-  jetsonReadHandle = osThreadNew(StartJetsonRead, NULL, &jetsonRead_attributes);
-
   /* creation of monitoring */
   monitoringHandle = osThreadNew(StartMonitoring, NULL, &monitoring_attributes);
 
@@ -153,7 +144,12 @@ void StartMotorDrive(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    if (cmd_ready_flag == 1){
+			cmd_ready_flag = 0;
+			DriveMotors((WarpCommand *)&esc_command);
+		}
+
+    osDelay(10);
   }
   /* USER CODE END StartMotorDrive */
 }
@@ -171,27 +167,10 @@ void StartSensorRead(void *argument)
   /* Infinite loop */
   for(;;)
   {
+    AnalogDataRequest(START_CONTINUOUS);
     osDelay(1);
   }
   /* USER CODE END StartSensorRead */
-}
-
-/* USER CODE BEGIN Header_StartJetsonRead */
-/**
-* @brief Function implementing the jetsonRead thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartJetsonRead */
-void StartJetsonRead(void *argument)
-{
-  /* USER CODE BEGIN StartJetsonRead */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartJetsonRead */
 }
 
 /* USER CODE BEGIN Header_StartMonitoring */
@@ -207,7 +186,9 @@ void StartMonitoring(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    printSensorData((Sensors*)&sensors);
+    transmitSensorData(&huart1, (Sensors*)&sensors);
+    osDelay(100);
   }
   /* USER CODE END StartMonitoring */
 }

@@ -1,5 +1,6 @@
 #include "analogdata.h"
 #include "i2c.h"
+
 volatile Sensors sensors;
 volatile uint8_t cmd_ready_flag = 0;
 
