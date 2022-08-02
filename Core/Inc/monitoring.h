@@ -12,9 +12,6 @@
 #include "stm32f4xx_hal.h"
 
 void transmitSensorData(UART_HandleTypeDef *huart, Sensors* sensors_data);
-
 void printSensorData(const Sensors* sensorDataPtr);
-
 void printOpeningMessage();
-
 #endif //MONITORING_H

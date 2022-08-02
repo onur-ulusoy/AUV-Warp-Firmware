@@ -1,5 +1,8 @@
 #include "analogdata.h"
 
+#define MAX_CURRENT 100.0 // Amperes 
+#define MAX_VOLTAGE 14.0 // Voltages
+
 volatile Sensors sensors;
 volatile uint8_t cmd_ready_flag = 0;
 
@@ -76,11 +79,14 @@ void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx) {
 
 void AnalogDataRequest(enum ADC_ControlCommand command) {
   if (command == START_ONETIME) {
-																																						 //Trying to calculate:
+		//Trying to read:
 		Read_ADS1115(0x48, &ADS1); //Addr to GND -> Slave Address = 1001000 = 0x48 ESC Curr Set1
 		Read_ADS1115(0x49, &ADS2); //Addr to VDD -> Slave Address = 1001001 = 0x49 ESC Curr Set2
 		Read_ADS1115(0x4A, &ADS3); //Addr to SDA -> Slave Address = 1001001 = 0x4A 12V,5VHP,BATT,ESC_TEMP Sense
 		Read_ADS1115(0x4B, &ADS4); //Addr to SCL -> Slave Address = 1001011 = 0x4B 12V Curr, 5V Curr, Module Curr, Module Voltage
+
+        // Check sensor values whether they are exceeded, power off if one of them so.
+        checkSensorValues();
 
 		//ESC shunt																																				//Ex: 2800mV / 51 / 2mOhms = 27.45 Amperes
 		sensors.esc_ch0_current = (ADS1.ch_A0 / shunt_amplifier_gain) / shunt_resistance; //ESC 1
@@ -138,4 +144,19 @@ void MCU_Turn_Off() {
 
   /* Enter the Standby mode */
   HAL_PWR_EnterSTANDBYMode();
+}
+
+void checkSensorValues() {
+    if(sensors.esc_ch0_current > MAX_CURRENT || sensors.esc_ch1_current > MAX_CURRENT || 
+       sensors.esc_ch2_current > MAX_CURRENT || sensors.esc_ch3_current > MAX_CURRENT || 
+       sensors.esc_ch4_current > MAX_CURRENT || sensors.esc_ch5_current > MAX_CURRENT || 
+       sensors.esc_ch6_current > MAX_CURRENT || sensors.esc_ch7_current > MAX_CURRENT || 
+       sensors.conv1_12V_current > MAX_CURRENT || sensors.conv2_5VHP_current > MAX_CURRENT || 
+       sensors.module_current > MAX_CURRENT || sensors.conv1_12V_voltage > MAX_VOLTAGE || 
+       sensors.conv2_5VHP_voltage > MAX_VOLTAGE || sensors.batt_voltage > MAX_VOLTAGE || 
+       sensors.module_voltage > MAX_VOLTAGE) {
+       
+        MCU_Turn_Off();
+        return; 
+    }
 }

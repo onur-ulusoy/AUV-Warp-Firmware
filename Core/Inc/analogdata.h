@@ -32,5 +32,7 @@ void read_channel_data(uint8_t channel, struct ADS_Adc_Data* ADSx, int16_t ADC_D
 void Read_ADS1115(unsigned char addr, struct ADS_Adc_Data* ADSx);
 void AnalogDataRequest(enum ADC_ControlCommand command);
 void initialize_ADS_data();
+void MCU_Turn_Off();
+void checkSensorValues();
 
 #endif //ANALOGDATA_H
