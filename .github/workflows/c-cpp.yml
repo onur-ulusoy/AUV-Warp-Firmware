@@ -1,0 +1,23 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Deps
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-arm-none-eabi
+    - name: make
+      run: |
+        make clean
+        make all
