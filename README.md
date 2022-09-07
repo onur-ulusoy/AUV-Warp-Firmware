@@ -59,6 +59,9 @@ This repository focuses Warp's firmware. For more details on the hardware, visit
   - [Table of Contents](#table-of-contents)
   - [Board Description](#board-description)
   - [Architecture](#architecture)
+    - [Interrupts](#interrupts)
+    - [Real Time Tasks](#real-time-tasks)
+    - [Pinout](#pinout)
 
 ## Board Description
 
@@ -94,5 +97,56 @@ The architecture of the firmware based on FreeRTOS consists of the following lay
 - **Application Programming Interface (API):** The API layer offers a collection of functions that can be used by the application for the creation, deletion, and management of tasks. Additionally, it also manages shared resources and synchronizes tasks.
 
 - **Application Code:** This layer contains the user application code that operates atop the operating system. The development of this layer is possible using standard programming languages such as C and C++.
+
+### Interrupts 
+
+The firmware leverages various interrupts for specific functionalities, such as:
+
+- **HAL_UART_RxCpltCallback**: This interrupt fills the `WarpCommand` struct with PWM information that has been encapsulated using Protocol Buffers (protobufs) and received from the onboard computer via UART. Protobufs is a language-neutral, platform-neutral, extensible mechanism for serializing structured data developed by Google.
+
+### Real Time Tasks
+
+The firmware comprises several tasks, each contributing to a distinct functionality. They include:
+
+- **MotorDrive:** This task drives motors using PWMs from the `WarpCommand` struct, which are encoded and decoded in protobufs. This task is prioritized at level 2.
+
+- **SensorRead:** This task reads sensor data from ADC sensors via I2C. If necessary, it can halt the microcontroller, including power distribution, from converter switches. The priority level for this task is 1
+
+- **Monitoring:** This task transmits sensor data and other monitoring related data to the onboard computer via UART. The transmitted data is encapsulated using protobufs. In addition, it also controls the buzzer and OLED for notifications. This task is assigned a priority level of 3.
+
+
+
+### Pinout
+
+The pinout diagram, generated using STM32CubeMX, is available [ioc file](warp_firmware.ioc) and can be seen below:
+
+<p align="center">
+    <img width="600" src="Images/pinout.png" alt="Pinout">
+</p>
+
+
+Definitions of pins referenced in diagram are below.
+
+<div align="center">
+
+| Exported Pins | Description                  |
+| ------------- | ---------------------------- |
+| CONV1_SW      | Converter 1 Switch Pin       |
+| CONV2_SW      | Converter 2 Switch Pin       |
+| ESC1_PWM      | ESC1 Pulse Pin               |
+| ESC2_PWM      | ESC2 Pulse Pin               |
+| ESC3_PWM      | ESC3 Pulse Pin               |
+| ESC4_PWM      | ESC4 Pulse Pin               |
+| ESC5_PWM      | ESC5 Pulse Pin               |
+| ESC6_PWM      | ESC6 Pulse Pin               |
+| ESC7_PWM      | ESC7 Pulse Pin               |
+| ESC8_PWM      | ESC8 Pulse Pin               |
+| USART1 RX     | RS232 RX Pin on the PCB      |
+| USART1 TX     | RS232 TX Pin on the PCB      |
+| Buzzer        | Buzzer on the PCB            |
+| USB Device    | Micro USB on PCB             |
+
+</div>
+
 
 
