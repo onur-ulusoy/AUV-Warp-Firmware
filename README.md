@@ -66,6 +66,10 @@ This repository focuses Warp's firmware. For more details on the hardware, visit
     - [Other Connections](#other-connections)
   - [Dependencies](#dependencies)
   - [Build \& Flash](#build--flash)
+    - [Rebuild Script](#rebuild-script)
+  - [Technologies Used](#technologies-used)
+  - [Project Timeline](#project-timeline)
+  - [LICENSE](#license)
 
 ## Board Description
 
@@ -194,6 +198,62 @@ To build the project, navigate to the project directory and run
 make
 ```
 
+To flash the firmware to the STM32F401 microcontroller, connect the microcontroller to your machine,
+then run the appropriate command based on your flashing tool. Here's an example using OpenOCD:
+```bash
+openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program ./build/warp_firmware.elf verify reset exit"
+```
 
+### Rebuild Script
+Here's an additional [bash script](/rebuild.bash) you can use to build the project. It offers the following features:
+
+- Argument Parsing: It can accept arguments like --v for verbose output.
+- Build Cleaning: It clears out any previous builds before starting a new one.
+- Color-Coded Output: Errors and warnings are highlighted in red and yellow respectively, for easy identification.
+- Exit Status: It displays whether the build was successful or failed, after completion.
+
+The script can be used:
+
+```bash
+source rebuild.bash
+```
+
+or verbose mode, only errors will show up
+
+```bash
+source rebuild.bash --v
+```
+
+## Technologies Used
+
+The following technologies and software were used in the development of the WARP firmware:
+
+- [VS Code](https://code.visualstudio.com/): A powerful source code editor with essential addons, providing an impeccable development experience.
+  
+- [GNU Make](https://www.gnu.org/software/make/): A powerful tool which enables developers to maintain groups of programs.
+  
+- [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html): A graphical software configuration tool that allows the generation of C initialization code using graphical wizards.
+  
+- [FreeRTOS](https://www.freertos.org/): A real-time operating system for microcontrollers, providing robust functionality for embedded systems.
+  
+- [Git](https://git-scm.com/): A distributed version control system for tracking changes in any set of files, originally designed for coordinating work among programmers.
+  
+- [CLion](https://www.jetbrains.com/clion/): A cross-platform IDE for C and C++ by JetBrains.
+  
+- [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html): An integrated development environment used for STM32 microcontroller development, based on the Eclipse platform.
+  
+- [Protocol Buffers (protobuf)](https://developers.google.com/protocol-buffers): Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data.
+  
+- [Saleae Logic Analyzer Software](https://www.saleae.com/): A logic analyzer and signal recorder software used for testing and verifying digital signals, essential for analyzing PWM signals.
+  
+- [Draw.io](https://www.drawio.com/): A free online diagram software for creating any types of diagrams and flowcharts.
+
+## Project Timeline
+The AUV warp driver board firmware handled by electronics team, developed and maintained under the leadership of Onur Ulusoy, was initiated in December 2021 and end up in August 2022. Detailed progress and contributions during this period remain within the team's internal documentation. Task sharing and reporting was applied using the platform Trello. The team strived for comprehensive hardware and firmware development, ensuring integration and performance of the Autonomous Underwater Vehicle (AUV).
+
+## LICENSE
+Project including all the source code is licensed under the Apache License 2.0.
+
+For detailed information, refer to the [LICENSE](LICENSE) file in this repository.
 
 
