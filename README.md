@@ -62,6 +62,10 @@ This repository focuses Warp's firmware. For more details on the hardware, visit
     - [Interrupts](#interrupts)
     - [Real Time Tasks](#real-time-tasks)
     - [Pinout](#pinout)
+    - [Clock Configurations](#clock-configurations)
+    - [Other Connections](#other-connections)
+  - [Dependencies](#dependencies)
+  - [Build \& Flash](#build--flash)
 
 ## Board Description
 
@@ -147,6 +151,49 @@ Definitions of pins referenced in diagram are below.
 | USB Device    | Micro USB on PCB             |
 
 </div>
+
+### Clock Configurations
+
+The STM32F401 microcontroller's clock configuration is illustrated below. It is set up and configured using the STM32CubeMX software. This diagram was also created using STM32CubeMX.
+
+<div align="center">
+  <img width="2000" src="Images/clock_config.png" alt="Clock Config">
+</div>
+
+This setup involves a High-Speed Internal (HSI) clock, which is divided down for various purposes including for the system clock and for the peripheral clocks. It's worth noting that this clock configuration can be adjusted in the CubeMX software, depending on the specific needs of the AUV. Please refer to the STM32F401's datasheet and reference manual for more details on clock configurations.
+
+
+### Other Connections
+
+The other connections includes all the PCB's power distribution and communication can be seen below schematic. Note that you may want to examine this clicking and zooming in.
+
+
+<p align="center">
+    <img width="2000" src="Images/connections.png" alt="Connections">
+</p>
+
+
+## Dependencies
+
+This firmware requires the following dependencies:
+
+1. GCC ARM Embedded Toolchain: For compiling the source code.
+2. Make: For automating the build process.
+3. OpenOCD: A debugger and firmware flashing tool for on-chip debugging, in-system programming, and boundary-scan testing.
+
+To install these dependencies on a Debian-based system, use the following commands:
+
+```bash
+sudo apt-get update
+sudo apt-get install gcc-arm-none-eabi make openocd
+```
+
+## Build & Flash
+To build the project, navigate to the project directory and run
+```bash
+make
+```
+
 
 
 
