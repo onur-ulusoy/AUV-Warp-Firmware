@@ -117,7 +117,7 @@ The firmware leverages various interrupts for specific functionalities, such as:
 
 The firmware comprises several tasks, each contributing to a distinct functionality. They include:
 
-- **MotorDrive:** This task drives motors using PWMs from the `WarpCommand` struct, which are encoded and decoded in protobufs. This task is prioritized at level 2.
+- **MotorDrive:** This task drives motors using PWMs from the `WarpCommand` struct, which are encoded and decoded in protobufs. This task is prioritized at level 2. PWM duty cycles arranged according to the rule for Bluerobotics ESC's from this document: [pwm frequencies](/docs/pwm%20frequencies.pdf).
 
 - **SensorRead:** This task reads sensor data from ADC sensors via I2C. If necessary, it can halt the microcontroller, including power distribution, from converter switches. The priority level for this task is 1
 
